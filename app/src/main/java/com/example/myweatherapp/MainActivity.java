@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
       LocationGPS locationGPS = new LocationGPS();
-      locationGPS.initLocation();
 
     }
 
