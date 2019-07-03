@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTextMessage;
+    LocationGPS lh;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -40,9 +42,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         mTextMessage = findViewById(R.id.message);
+        TextView longitude = null;
+        TextView latitude = null;
 
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-      LocationGPS locationGPS = new LocationGPS();
+       this.lh = new LocationGPS(longitude, latitude, this);
+       lh.refreshLocation();
 
     }
 
