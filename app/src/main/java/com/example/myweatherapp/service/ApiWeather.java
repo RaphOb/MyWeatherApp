@@ -14,6 +14,6 @@ public interface ApiWeather {
             "X-RapidAPI-Host : community-open-weather-map.p.rapidapi.com",
             "X-RapidAPI-Key : 76280a0c29msh5c2b710390f7e46p1592a4jsncba170a55638"
     })
-    @GET("weather?q=paris%2Cfr")
-    Call<CurrentWeatherData> getWeather();
+    @GET("weather")
+    Call<CurrentWeatherData> getWeather(@Query("q") String q);
 }

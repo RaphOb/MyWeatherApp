@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import retrofit2.Call;
@@ -28,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView name;
     private Retrofit retrofit;
     private ApiWeather apiWeather;
+    private String ville;
+    private Button recherche;
+    private EditText editText;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -63,8 +69,19 @@ public class MainActivity extends AppCompatActivity {
        this.lh = new LocationGPS(longitude, latitude, this);
        lh.refreshLocation();
        name = findViewById(R.id.textTest);
+       editText = findViewById(R.id.ville);
+       recherche = findViewById(R.id.recherche);
+
+       recherche.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               ville = editText.getText().toString().trim();
+               getWeather();
+               editText.getText().clear();
+
+           }
+       });
        this.configureRetrofit();
-       getWeather();
 
 
     }
@@ -98,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getWeather() {
-        apiWeather.getWeather().enqueue(new Callback<CurrentWeatherData>() {
+        apiWeather.getWeather(ville).enqueue(new Callback<CurrentWeatherData>() {
             @Override
             public void onResponse(Call<CurrentWeatherData> call, Response<CurrentWeatherData> response) {
                 CurrentWeatherData w = response.body();
                 if (w != null) {
-                    name.setText(w.getName());
+                    name.setText(w.getSys().getCountry());
                     Log.d("SUCCESS", " ça a marchééé");
                 } else {
                     Log.d(">>>>>>TAG!!!!!", "empty reponse");
