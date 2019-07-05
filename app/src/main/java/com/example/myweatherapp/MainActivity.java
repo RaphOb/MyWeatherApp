@@ -2,18 +2,32 @@ package com.example.myweatherapp;
 
 import android.os.Bundle;
 
+import com.example.myweatherapp.model.currentWeather.CurrentWeatherData;
+import com.example.myweatherapp.service.ApiWeather;
+import com.example.myweatherapp.service.LocationGPS;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTextMessage;
     LocationGPS lh;
+    private TextView name;
+    private Retrofit retrofit;
+    private ApiWeather apiWeather;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -48,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
        this.lh = new LocationGPS(longitude, latitude, this);
        lh.refreshLocation();
+       name = findViewById(R.id.textTest);
+       this.configureRetrofit();
+       getWeather();
+
 
     }
 
@@ -67,5 +85,34 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public void configureRetrofit() {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
 
+        retrofit = new Retrofit.Builder().baseUrl("https://community-open-weather-map.p.rapidapi.com/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        apiWeather = retrofit.create(ApiWeather.class);
+    }
+
+    public void getWeather() {
+        apiWeather.getWeather().enqueue(new Callback<CurrentWeatherData>() {
+            @Override
+            public void onResponse(Call<CurrentWeatherData> call, Response<CurrentWeatherData> response) {
+                CurrentWeatherData w = response.body();
+                if (w != null) {
+                    name.setText(w.getName());
+                } else {
+                    Log.d("TAG", "empty reponse");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CurrentWeatherData> call, Throwable t) {
+            Log.d("ERREUR ", "message : " + t + call);
+            }
+        });
+    }
 }

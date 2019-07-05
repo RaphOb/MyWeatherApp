@@ -1,4 +1,4 @@
-package com.example.myweatherapp;
+package com.example.myweatherapp.service;
 
 import android.Manifest;
 import android.app.Activity;
@@ -51,7 +51,8 @@ public class LocationGPS extends AppCompatActivity implements LocationListener {
             ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_CODE_GPS_PERMISSIONS);
 
-            return null;
+
+        return null;
         }
     }
 
