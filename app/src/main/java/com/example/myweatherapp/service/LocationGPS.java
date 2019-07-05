@@ -48,10 +48,9 @@ public class LocationGPS extends AppCompatActivity implements LocationListener {
 
             return locationManager.getLastKnownLocation(provider);
         } else {
+
             ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_CODE_GPS_PERMISSIONS);
-
-
         return null;
         }
     }
