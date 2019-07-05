@@ -3,41 +3,36 @@ package com.example.myweatherapp.model.common;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ListCommon {
 
-    @SerializedName("id")
+    @SerializedName("coord")
     @Expose
-    private Integer id;
+    private Coord coord;
 
-    @SerializedName("name")
+    @SerializedName("sys")
     @Expose
-    private String name;
+    private Sys sys;
 
-    @SerializedName("dt")
+    @SerializedName("weathers")
     @Expose
-    private Double dt;
+    private List<Weather> weathers;
 
-    public Integer getId() {
-        return id;
-    }
+    @SerializedName("main")
+    @Expose
+    private Main main;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @SerializedName("wind")
+    @Expose
+    private Wind wind;
 
-    public String getName() {
-        return name;
-    }
+    @SerializedName("rain")
+    @Expose
+    private Rain rain;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @SerializedName("clouds")
+    @Expose
+    private Clouds clouds;
 
-    public Double getDt() {
-        return dt;
-    }
-
-    public void setDt(Double dt) {
-        this.dt = dt;
-    }
 }
