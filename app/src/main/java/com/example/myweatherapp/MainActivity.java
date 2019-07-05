@@ -104,14 +104,15 @@ public class MainActivity extends AppCompatActivity {
                 CurrentWeatherData w = response.body();
                 if (w != null) {
                     name.setText(w.getName());
+                    Log.d("SUCCESS", " ça a marchééé");
                 } else {
-                    Log.d("TAG", "empty reponse");
+                    Log.d(">>>>>>TAG!!!!!", "empty reponse");
                 }
             }
 
             @Override
             public void onFailure(Call<CurrentWeatherData> call, Throwable t) {
-            Log.d("ERREUR ", "message : " + t + call);
+            Log.d(">>>>>>ERREUR !!!!!! ", "message : " + t + call);
             }
         });
     }

@@ -33,8 +33,8 @@ public class LocationGPS extends AppCompatActivity implements LocationListener {
         Location location = getLocation();
 
         if (location != null) {
-            latitude.setText(String.format("Latitude: %s", location.getLatitude()));
-            longitude.setText(String.format("Longitude: %s", location.getLongitude()));
+//            latitude.setText(String.format("Latitude: %s", location.getLatitude()));
+//            longitude.setText(String.format("Longitude: %s", location.getLongitude()));
         }
     }
 

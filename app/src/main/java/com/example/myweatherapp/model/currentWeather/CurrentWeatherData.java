@@ -10,6 +10,8 @@ import com.example.myweatherapp.model.common.Wind;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class CurrentWeatherData {
 
     @SerializedName("coord")
@@ -22,7 +24,7 @@ public class CurrentWeatherData {
 
     @SerializedName("weather")
     @Expose
-    private Weather weather;
+    private List<Weather> weather;
 
     @SerializedName("main")
     @Expose
@@ -72,11 +74,11 @@ public class CurrentWeatherData {
         this.sys = sys;
     }
 
-    public Weather getWeather() {
+    public List<Weather> getWeather() {
         return weather;
     }
 
-    public void setWeather(Weather weather) {
+    public void setWeather(List<Weather> weather) {
         this.weather = weather;
     }
 
