@@ -16,7 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myweatherapp.model.currentWeather.CurrentWeatherData;
+import com.example.myweatherapp.model.searchData.SearchWeatherData;
 import com.example.myweatherapp.service.ApiWeather;
+import com.example.myweatherapp.service.RetrofitConfig;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,13 +36,23 @@ public class CityChoiceActivity extends AppCompatActivity {
     private TextView mCountryFound;
     private EditText mCityInput;
     private Button mSearchButton;
+    private TextView mDescription;
+    private TextView mTempActuelle;
+    private TextView mTempMax;
+    private TextView mTempMin;
+    private TextView mPressure;
+    private TextView mHumidity;
+    private TextView mWindSpeed;
 
-    //API Elements
-    private Retrofit retrofit;
-    private ApiWeather apiWeather;
+    //Retrofit instance
+    RetrofitConfig retrofitConfig = new RetrofitConfig();
 
     //Converted Data
     private String mCity;
+
+    //Query parameters
+    private String lang = "Fr";
+    private String units = "metric";
 
 
     /*----------Activity Usage--------*/
@@ -63,6 +75,7 @@ public class CityChoiceActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 mSearchButton.setEnabled(charSequence.toString().length() != 0);
@@ -70,19 +83,16 @@ public class CityChoiceActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // The user just clicked
-                        if (mSearchButton.getText() == "OK")
-                        {
+                        if (mSearchButton.getText() == "OK") {
                             //HERE WE START NEW ACTIVITY
                             mCountryFound.setText("NEW ACTIVITY TO START");
 
                             //Intent mainActivity = new Intent(CityChoiceActivity.this, MainActivity.class);
                             //startActivity(mainActivity);
-                        }
-                        else
-                        {
+                        } else {
                             mCity = mCityInput.getText().toString().trim();
-                            configureRetrofit();
                             getWeather();
+                            mCityInput.getText().clear();
                         }
                     }
                 });
@@ -118,19 +128,19 @@ public class CityChoiceActivity extends AppCompatActivity {
 
 
     //Configure Retrofit to call API
-    public void configureRetrofit() {
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        retrofit = new Retrofit.Builder().baseUrl("https://community-open-weather-map.p.rapidapi.com/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-        apiWeather = retrofit.create(ApiWeather.class);
-    }
+//    public void configureRetrofit() {
+//        Gson gson = new GsonBuilder()
+//                .setLenient()
+//                .create();
+//
+//        retrofit = new Retrofit.Builder().baseUrl("https://community-open-weather-map.p.rapidapi.com/")
+//                .addConverterFactory(GsonConverterFactory.create(gson))
+//                .build();
+//        apiWeather = retrofit.create(ApiWeather.class);
+//    }
 
     public void getWeather() {
-        apiWeather.getWeather(mCity).enqueue(new Callback<CurrentWeatherData>() {
+        retrofitConfig.getApiWeather().getWeather(mCity, lang, units).enqueue(new Callback<CurrentWeatherData>() {
             @Override
             public void onResponse(Call<CurrentWeatherData> call, Response<CurrentWeatherData> response) {
                 CurrentWeatherData w = response.body();
@@ -140,7 +150,13 @@ public class CityChoiceActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "It seems the city you entered is not known from us...", Toast.LENGTH_SHORT).show();
                 } else {
                     mCountryFound.setText("We found you in " + w.getSys().getCountry() + ". Is it correct?");
-                    mSearchButton.setText("OK");
+//                    mDescription.setText(w.getWeather().get(0).getDescription());
+//                    mTempActuelle.setText(String.valueOf(w.getMain().getTemp()));
+//                    mTempMax.setText(String.valueOf(w.getMain().getTemp_max()));
+//                    mTempMin.setText(String.valueOf(w.getMain().getTemp_min()));
+//                    mPressure.setText(String.valueOf(w.getMain().getPressure()));
+//                    mHumidity.setText(String.valueOf(w.getMain().getHumidity()));
+//                    mWindSpeed.setText(String.valueOf(w.getWind().getSpeed()));
                     Log.d("SUCCESS", " Country found according to the City");
                 }
             }

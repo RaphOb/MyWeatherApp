@@ -24,6 +24,39 @@ public class SearchWeatherData {
     @Expose
     private List<ListCommon> list;
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getCod() {
+        return cod;
+    }
+
+    public void setCod(Integer cod) {
+        this.cod = cod;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public List<ListCommon> getList() {
+        return list;
+    }
+
+    public void setList(List<ListCommon> list) {
+        this.list = list;
+    }
+
+
 
 
 }
