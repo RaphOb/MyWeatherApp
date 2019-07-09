@@ -11,6 +11,10 @@ public class ListCommon {
     @Expose
     private Coord coord;
 
+    @SerializedName("name")
+    @Expose
+    private String name;
+
     @SerializedName("sys")
     @Expose
     private Sys sys;
@@ -42,6 +46,10 @@ public class ListCommon {
     public void setCoord(Coord coord) {
         this.coord = coord;
     }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
 
     public Sys getSys() {
         return sys;

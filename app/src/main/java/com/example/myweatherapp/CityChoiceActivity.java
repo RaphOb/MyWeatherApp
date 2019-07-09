@@ -38,20 +38,6 @@ public class CityChoiceActivity extends AppCompatActivity {
     private TextView mCountryFound;
     private EditText mCityInput;
     private Button mSearchButton;
-    private TextView mDescription;
-    private TextView mTempActuelle;
-    private TextView mTempMax;
-    private TextView mTempMin;
-    private TextView mPressure;
-    private TextView mHumidity;
-    private TextView mWindSpeed;
-    private TextView mWindOrientation;
-    private TextView mRain1;
-    private TextView mRain3;
-    private ImageView iconView;
-
-    //URL
-    private static String URL_ICON = "http://api.openweathermap.org/img/w/";
 
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
@@ -76,8 +62,6 @@ public class CityChoiceActivity extends AppCompatActivity {
         mCountryFound = findViewById(R.id.activity_city_choice_city_result_txt);
         mSearchButton = findViewById(R.id.activity_city_choice_search_btn);
 
-        mSearchButton.setEnabled(false);
-
         //Monitor changing on inputText
         mCityInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -87,25 +71,24 @@ public class CityChoiceActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                /* Set clickable for search button */
                 mSearchButton.setEnabled(charSequence.toString().length() != 0);
+                /* Monitor click events */
                 mSearchButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // The user just clicked
                         if (mSearchButton.getText() == "OK") {
-                            //HERE WE START NEW ACTIVITY
-                            mCountryFound.setText("NEW ACTIVITY TO START");
-
-                            //Intent mainActivity = new Intent(CityChoiceActivity.this, MainActivity.class);
-                            //startActivity(mainActivity);
+                            /* Launch 5 next days results */
+                            Intent intent = new Intent(CityChoiceActivity.this, ForecastActivity.class);
+                            intent.putExtra("City", mCity);
+                            startActivity(intent);
                         } else {
                             mCity = mCityInput.getText().toString().trim();
                             getWeather();
-                            mCityInput.getText().clear();
                         }
                     }
                 });
-
             }
 
             @Override
@@ -113,8 +96,6 @@ public class CityChoiceActivity extends AppCompatActivity {
                 mSearchButton.setText("Search !");
             }
         });
-        //Disable button while text is not entered
-        mSearchButton.setClickable(false);
     }
 
     @Override
@@ -135,19 +116,6 @@ public class CityChoiceActivity extends AppCompatActivity {
 
     /*-------API Usage-------*/
 
-
-    //Configure Retrofit to call API
-//    public void configureRetrofit() {
-//        Gson gson = new GsonBuilder()
-//                .setLenient()
-//                .create();
-//
-//        retrofit = new Retrofit.Builder().baseUrl("https://community-open-weather-map.p.rapidapi.com/")
-//                .addConverterFactory(GsonConverterFactory.create(gson))
-//                .build();
-//        apiWeather = retrofit.create(ApiWeather.class);
-//    }
-
     public void getWeather() {
         retrofitConfig.getApiWeather().getWeather(mCity, lang, units).enqueue(new Callback<CurrentWeatherData>() {
             @Override
@@ -159,17 +127,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "It seems the city you entered is not known from us...", Toast.LENGTH_SHORT).show();
                 } else {
                     mCountryFound.setText("We found you in " + w.getSys().getCountry() + ". Is it correct?");
-//                    mDescription.setText(w.getWeather().get(0).getDescription());
-//                    mTempActuelle.setText(String.valueOf(w.getMain().getTemp()));
-//                    mTempMax.setText(String.valueOf(w.getMain().getTemp_max()));
-//                    mTempMin.setText(String.valueOf(w.getMain().getTemp_min()));
-//                    mPressure.setText(String.valueOf(w.getMain().getPressure()));
-//                    mHumidity.setText(String.valueOf(w.getMain().getHumidity()));
-//                    mWindSpeed.setText(String.valueOf(w.getWind().getSpeed()));
-//                    mWindOrientation.setText(String.valueOf(w.getWind().getDeg()));
-//                    mRain1.setText(String.valueOf(w.getRain().getRain1()));
-//                    mRain3.setText(String.valueOf(w.getRain().getRain3()));
-//                    Picasso.get().load(URL_ICON + w.getWeather().get(0).getIcon() + "@2x.png").into(iconView);
+                    mSearchButton.setText("OK");
                     Log.d("SUCCESS", " Country found according to the City");
                 }
             }
@@ -180,25 +138,4 @@ public class CityChoiceActivity extends AppCompatActivity {
             }
         });
     }
-
-   /* private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
-            }
-            return false;
-        }
-    };*/
-
 }
