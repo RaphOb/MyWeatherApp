@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.example.myweatherapp.service.RetrofitConfig;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +45,13 @@ public class CityChoiceActivity extends AppCompatActivity {
     private TextView mPressure;
     private TextView mHumidity;
     private TextView mWindSpeed;
+    private TextView mWindOrientation;
+    private TextView mRain1;
+    private TextView mRain3;
+    private ImageView iconView;
+
+    //URL
+    private static String URL_ICON = "http://api.openweathermap.org/img/w/";
 
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
@@ -157,6 +166,10 @@ public class CityChoiceActivity extends AppCompatActivity {
 //                    mPressure.setText(String.valueOf(w.getMain().getPressure()));
 //                    mHumidity.setText(String.valueOf(w.getMain().getHumidity()));
 //                    mWindSpeed.setText(String.valueOf(w.getWind().getSpeed()));
+//                    mWindOrientation.setText(String.valueOf(w.getWind().getDeg()));
+//                    mRain1.setText(String.valueOf(w.getRain().getRain1()));
+//                    mRain3.setText(String.valueOf(w.getRain().getRain3()));
+//                    Picasso.get().load(URL_ICON + w.getWeather().get(0).getIcon() + "@2x.png").into(iconView);
                     Log.d("SUCCESS", " Country found according to the City");
                 }
             }
