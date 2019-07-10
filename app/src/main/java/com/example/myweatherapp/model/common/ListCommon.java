@@ -19,7 +19,7 @@ public class ListCommon {
     @Expose
     private Sys sys;
 
-    @SerializedName("weathers")
+    @SerializedName("weather")
     @Expose
     private List<Weather> weathers;
 

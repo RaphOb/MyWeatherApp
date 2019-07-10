@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import com.example.myweatherapp.model.common.ListCommon;
 import com.example.myweatherapp.model.common.ListForecastAdapter;
+import com.example.myweatherapp.model.common.Main;
+import com.example.myweatherapp.model.common.Weather;
 import com.example.myweatherapp.model.searchData.SearchWeatherData;
 import com.example.myweatherapp.service.ApiWeather;
 import com.example.myweatherapp.service.RetrofitConfig;
@@ -95,7 +97,7 @@ public class ForecastActivity extends AppCompatActivity {
 
     /**
      * Api Call
-     * */
+     */
     public void getForecast() {
         retrofitConfig.getApiWeather().getForecast(
                 getIntent().getStringExtra("City"),
@@ -110,31 +112,46 @@ public class ForecastActivity extends AppCompatActivity {
                     Log.d("FAILED", "Response from API call return NULL");
                     Toast.makeText(getApplicationContext(), "An error occured while getting weather data...", Toast.LENGTH_SHORT).show();
                 } else {
-                    mForecastList = s.getList();
-                    int day = 0;
-                    Iterator<ListCommon> iterator = mForecastList.iterator();
-                    while (iterator.hasNext()) {
-                        ListCommon x = iterator.next();
-                        Log.d("INFO", x.getSys().getCountry());
-                        Log.d("INFO", String.valueOf(x.getCoord().getLat()));
-                        Log.d("INFO", String.valueOf(x.getCoord().getLon()));
-                        Log.d("INFO", x.getName());
+                    for (ListCommon lw : s.getList()) {
+                        ListCommon l = new ListCommon();
+                        Main m = new Main();
+                        m.setTemp(lw.getMain().getTemp());
+                        l.setMain(m);
+                        Weather w = new Weather();
+                        w.setDescription(lw.getWeathers().get(0).getDescription());
+                        List<Weather> ll = new ArrayList<>();
+                        ll.add(w);
+                        l.setWeathers(ll);
 
-                        /*mTemp[day].setText(String.valueOf(x.getMain().getTemp()));
-                        mTempMax[day].setText(String.valueOf(x.getMain().getTemp_max()));
-                        mTempMin[day].setText(String.valueOf(x.getMain().getTemp_min()));
-                        mWindSpeed[day].setText(String.valueOf(x.getWind().getSpeed()));
-                        mWindOrientation[day].setText(String.valueOf(x.getWind().getSpeed()));
-                        mRain1[day].setText(String.valueOf(x.getRain().getRain1()));
-                        mRain3[day].setText(String.valueOf(x.getRain().getRain3()));
-                        mDescription[day].setText(x.getWeathers().get(0).getDescription());
-                        mIcon[day].setText(x.getWeathers().get(0).getIcon());
-                        Picasso.get().load(URL_ICON + x.getWeathers().get(0).getIcon() + "@2x.png").into(iconView[day]);*/
-
-
-                        Log.d("SUCCESS", "Data from 5 next days");
-                        ++day;
+                        mForecastList.add(l);
+                        mAdapter.notifyDataSetChanged();
                     }
+
+
+//                    int day = 0;
+//                    Iterator<ListCommon> iterator = mForecastList.iterator();
+//                    while (iterator.hasNext()) {
+//                        ListCommon x = iterator.next();
+//                        Log.d("INFO", x.getSys().getCountry());
+//                        Log.d("INFO", String.valueOf(x.getCoord().getLat()));
+//                        Log.d("INFO", String.valueOf(x.getCoord().getLon()));
+//                        Log.d("INFO", x.getName());
+
+//                        mTemp[day].setText(String.valueOf(x.getMain().getTemp()));
+//                        mTempMax[day].setText(String.valueOf(x.getMain().getTemp_max()));
+//                        mTempMin[day].setText(String.valueOf(x.getMain().getTemp_min()));
+//                        mWindSpeed[day].setText(String.valueOf(x.getWind().getSpeed()));
+//                        mWindOrientation[day].setText(String.valueOf(x.getWind().getSpeed()));
+//                        mRain1[day].setText(String.valueOf(x.getRain().getRain1()));
+//                        mRain3[day].setText(String.valueOf(x.getRain().getRain3()));
+//                        mDescription[day].setText(x.getWeathers().get(0).getDescription());
+//                        mIcon[day].setText(x.getWeathers().get(0).getIcon());
+//                        Picasso.get().load(URL_ICON + x.getWeathers().get(0).getIcon() + "@2x.png").into(iconView[day]);
+
+
+                    Log.d("SUCCESS", "Data from 5 next days");
+//                        ++day;
+//                    }
                 }
             }
 

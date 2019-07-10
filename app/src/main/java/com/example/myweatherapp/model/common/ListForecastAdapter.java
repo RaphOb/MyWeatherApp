@@ -1,6 +1,7 @@
 package com.example.myweatherapp.model.common;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class ListForecastAdapter extends BaseAdapter {
          */
         if (view == null)
         {
-            view = LayoutInflater.from(context).inflate(R.layout.activity_forecast, null);
+            view = LayoutInflater.from(context).inflate(R.layout.day_row, null);
         }
 
         ListCommon day = forecast.get(position);
