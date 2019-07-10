@@ -1,7 +1,6 @@
 package com.example.myweatherapp;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.myweatherapp.model.common.ListCommon;
@@ -9,36 +8,25 @@ import com.example.myweatherapp.model.common.ListForecastAdapter;
 import com.example.myweatherapp.model.common.Main;
 import com.example.myweatherapp.model.common.Weather;
 import com.example.myweatherapp.model.searchData.SearchWeatherData;
-import com.example.myweatherapp.service.ApiWeather;
+import com.example.myweatherapp.others.Constants;
 import com.example.myweatherapp.service.RetrofitConfig;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.annotation.NonNull;
 
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ForecastActivity extends AppCompatActivity {
     //Visual Elements
@@ -59,12 +47,7 @@ public class ForecastActivity extends AppCompatActivity {
     private TextView[] mIcon;
     private ImageView[] iconView;
 
-    //Query parameters
-    private String lang = "Fr";
-    private String units = "metric";
 
-    //URL
-    private static String URL_ICON = "http://api.openweathermap.org/img/w/";
 
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
@@ -101,8 +84,9 @@ public class ForecastActivity extends AppCompatActivity {
     public void getForecast() {
         retrofitConfig.getApiWeather().getForecast(
                 getIntent().getStringExtra("City"),
-                lang,
-                units
+                Constants.LANG,
+                Constants.UNITS,
+                Constants.APPID
         ).enqueue(new Callback<SearchWeatherData>() {
             @SuppressLint("SetTextI18n")
             @Override

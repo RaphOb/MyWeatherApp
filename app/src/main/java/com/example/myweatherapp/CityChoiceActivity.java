@@ -5,31 +5,21 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myweatherapp.model.currentWeather.CurrentWeatherData;
-import com.example.myweatherapp.model.searchData.SearchWeatherData;
-import com.example.myweatherapp.service.ApiWeather;
+import com.example.myweatherapp.others.Constants;
 import com.example.myweatherapp.service.RetrofitConfig;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CityChoiceActivity extends AppCompatActivity {
 
@@ -44,11 +34,6 @@ public class CityChoiceActivity extends AppCompatActivity {
 
     //Converted Data
     private String mCity;
-
-    //Query parameters
-    private String lang = "Fr";
-    private String units = "metric";
-
 
     /*----------Activity Usage--------*/
 
@@ -117,7 +102,7 @@ public class CityChoiceActivity extends AppCompatActivity {
     /*-------API Usage-------*/
 
     public void getWeather() {
-        retrofitConfig.getApiWeather().getWeather(mCity, lang, units).enqueue(new Callback<CurrentWeatherData>() {
+        retrofitConfig.getApiWeather().getWeather(mCity, Constants.LANG, Constants.UNITS, Constants.APPID).enqueue(new Callback<CurrentWeatherData>() {
             @Override
             public void onResponse(Call<CurrentWeatherData> call, Response<CurrentWeatherData> response) {
                 CurrentWeatherData w = response.body();

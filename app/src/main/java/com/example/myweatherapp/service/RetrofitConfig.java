@@ -1,5 +1,6 @@
 package com.example.myweatherapp.service;
 
+import com.example.myweatherapp.others.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -16,7 +17,7 @@ public class RetrofitConfig {
                     .setLenient()
                     .create();
 
-            retrofit = new Retrofit.Builder().baseUrl("https://community-open-weather-map.p.rapidapi.com/")
+            retrofit = new Retrofit.Builder().baseUrl(Constants.API_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
             apiWeather = retrofit.create(ApiWeather.class);
