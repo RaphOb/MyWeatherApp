@@ -1,6 +1,7 @@
 package com.example.myweatherapp;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,9 +14,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myweatherapp.model.common.CityList;
 import com.example.myweatherapp.model.currentWeather.CurrentWeatherData;
 import com.example.myweatherapp.others.Constants;
 import com.example.myweatherapp.service.RetrofitConfig;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +43,7 @@ public class CityChoiceActivity extends AppCompatActivity {
 
     //Converted Data
     private String mCity;
+    public static List<CityList> cityLists;
 
     /*----------Activity Usage--------*/
 
@@ -46,6 +56,12 @@ public class CityChoiceActivity extends AppCompatActivity {
         mCityInput = findViewById(R.id.activity_city_choice_name_input);
         mCountryFound = findViewById(R.id.activity_city_choice_city_result_txt);
         mSearchButton = findViewById(R.id.activity_city_choice_search_btn);
+        try {
+            City();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         //Monitor changing on inputText
         mCityInput.addTextChangedListener(new TextWatcher() {
@@ -122,5 +138,20 @@ public class CityChoiceActivity extends AppCompatActivity {
                 Log.d(">>>>>>ERREUR !!!!!! ", "message : " + t + call);
             }
         });
+    }
+
+    public void City() throws IOException {
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+        TypeReference<List<CityList>> typeReferenceCity = new TypeReference<List<CityList>>() {
+        };
+        AssetManager manager = getApplicationContext().getAssets();
+        InputStream inputStreamCity = manager.open("city.list.json");
+        try {
+            cityLists = mapper.readValue(inputStreamCity, typeReferenceCity);
+            Log.d("SUCCESS", "City Saved");
+        } catch (Exception e) {
+            Log.d("ERREUR", "Impossible de charger le fichier");
+        }
     }
 }

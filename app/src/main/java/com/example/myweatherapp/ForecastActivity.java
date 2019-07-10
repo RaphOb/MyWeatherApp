@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.example.myweatherapp.model.common.ListCommon;
-import com.example.myweatherapp.model.common.ListForecastAdapter;
+import com.example.myweatherapp.others.ListForecastAdapter;
 import com.example.myweatherapp.model.common.Main;
 import com.example.myweatherapp.model.common.Weather;
 import com.example.myweatherapp.model.searchData.SearchWeatherData;
