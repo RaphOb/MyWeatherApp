@@ -7,6 +7,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myweatherapp.model.common.CityList;
 import com.example.myweatherapp.model.currentWeather.CurrentWeatherData;
+import com.example.myweatherapp.others.CityAdaptateur;
 import com.example.myweatherapp.others.Constants;
 import com.example.myweatherapp.service.RetrofitConfig;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -37,6 +40,7 @@ public class CityChoiceActivity extends AppCompatActivity {
     private TextView mCountryFound;
     private EditText mCityInput;
     private Button mSearchButton;
+    private AutoCompleteTextView country;
 
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
@@ -56,11 +60,15 @@ public class CityChoiceActivity extends AppCompatActivity {
         mCityInput = findViewById(R.id.activity_city_choice_name_input);
         mCountryFound = findViewById(R.id.activity_city_choice_city_result_txt);
         mSearchButton = findViewById(R.id.activity_city_choice_search_btn);
+        country = findViewById(R.id.autoCompleteTextView);
         try {
             City();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        country.setThreshold(3);
+        CityAdaptateur adapter = new CityAdaptateur(this, R.layout.activity_city_choice, android.R.layout.simple_list_item_1, cityLists);
+        country.setAdapter(adapter);
 
 
         //Monitor changing on inputText
