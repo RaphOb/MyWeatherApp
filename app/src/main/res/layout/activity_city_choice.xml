@@ -38,7 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:hint="Search City" >
-
     </AutoCompleteTextView>
 
     <TextView

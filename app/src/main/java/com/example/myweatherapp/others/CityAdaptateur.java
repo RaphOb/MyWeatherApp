@@ -1,6 +1,7 @@
 package com.example.myweatherapp.others;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,9 +71,9 @@ public class CityAdaptateur extends ArrayAdapter {
             if (constraint != null) {
                 suggestions.clear();
                 for (CityList c : tempCities) {
-                    if (c.getName().toLowerCase().contains(constraint.toString().toLowerCase()) &&
-                        c.getCountry() != null &&
-                        c.getCoord() != null) {
+                    if (c.getName().toLowerCase().contains(constraint.toString().toLowerCase())
+                        && c.getCountry() != null
+                        && c.getName() != null) {
                         suggestions.add(c);
                     }
                 }
