@@ -67,9 +67,9 @@ public class CityAdaptateur extends ArrayAdapter {
         protected FilterResults performFiltering(CharSequence constraint) {
             if (constraint != null) {
                 suggestions.clear();
-                for (CityList cityList : tempCities) {
-                    if (cityList.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        suggestions.add(cityList);
+                for (CityList c : tempCities) {
+                    if (c.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        suggestions.add(c);
                     }
                 }
                 FilterResults filterResults = new FilterResults();
@@ -84,12 +84,14 @@ public class CityAdaptateur extends ArrayAdapter {
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             List<CityList> filterList = (ArrayList<CityList>) results.values;
+            List<CityList> copy = new ArrayList<>();
             if (results != null && results.count > 0) {
                 clear();
                 for (CityList c : filterList) {
-                    add(c);
-                    notifyDataSetChanged();
+                    copy.add(c);
                 }
+                addAll(copy);
+                notifyDataSetChanged();
             }
         }
     };
