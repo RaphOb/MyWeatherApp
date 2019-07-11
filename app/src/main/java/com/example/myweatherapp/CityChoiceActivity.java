@@ -66,7 +66,7 @@ public class CityChoiceActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        country.setThreshold(3);
+        country.setThreshold(4);
         CityAdaptateur adapter = new CityAdaptateur(this, R.layout.activity_city_choice, android.R.layout.simple_list_item_1, cityLists);
         country.setAdapter(adapter);
 
