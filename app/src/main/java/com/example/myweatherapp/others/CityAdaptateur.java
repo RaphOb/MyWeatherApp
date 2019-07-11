@@ -90,8 +90,8 @@ public class CityAdaptateur extends ArrayAdapter {
                 for (CityList c : filterList) {
                     copy.add(c);
                 }
-                notifyDataSetChanged();
                 addAll(copy);
+                notifyDataSetChanged();
             }
         }
     };
