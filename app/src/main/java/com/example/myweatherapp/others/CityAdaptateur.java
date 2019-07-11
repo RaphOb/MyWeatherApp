@@ -1,18 +1,14 @@
 package com.example.myweatherapp.others;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Filter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import com.example.myweatherapp.R;
@@ -46,7 +42,7 @@ public class CityAdaptateur extends ArrayAdapter {
         if (cityList != null) {
             TextView lblName = (TextView) view.findViewById(android.R.id.text1);
             if (lblName != null)
-                lblName.setText(cityList.getName());
+                lblName.setText(cityList.getName() + " (" + cityList.getCountry() + ")");
         }
         return view;
     }
