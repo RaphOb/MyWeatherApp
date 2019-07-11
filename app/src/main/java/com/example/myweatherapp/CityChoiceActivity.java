@@ -7,10 +7,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,16 +36,18 @@ public class CityChoiceActivity extends AppCompatActivity {
 
     //Visual Elements
     private TextView mGreetingText;
-    private TextView mCountryFound;
-    private EditText mCityInput;
+    private AutoCompleteTextView mLocatedCity;
+    private TextView mConfirm;
     private Button mSearchButton;
-    private AutoCompleteTextView country;
+
 
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
 
     //Converted Data
     private String mCity;
+    private String mCountry;
+    private CityList mCityObj;
     public static List<CityList> cityLists;
 
     /*----------Activity Usage--------*/
@@ -57,52 +58,67 @@ public class CityChoiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_city_choice);
         //Get all visual elements
         mGreetingText = findViewById(R.id.activity_city_choice_greeting_txt);
-        mCityInput = findViewById(R.id.activity_city_choice_name_input);
-        mCountryFound = findViewById(R.id.activity_city_choice_city_result_txt);
         mSearchButton = findViewById(R.id.activity_city_choice_search_btn);
-        country = findViewById(R.id.autoCompleteTextView);
+        mConfirm = findViewById(R.id.activity_city_choice_confirm_txt);
+        mLocatedCity = findViewById(R.id.autoCompleteTextView);
+
+        mSearchButton.setEnabled(false);
+        //Deserialize the list of city file
         try {
             City();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        country.setThreshold(4);
-        CityAdaptateur adapter = new CityAdaptateur(this, R.layout.activity_city_choice, android.R.layout.simple_list_item_1, cityLists);
-        country.setAdapter(adapter);
+        //Start autoCompletion at 4 char
+        mLocatedCity.setThreshold(4);
+        //Load Adapter to set Autocompletion View
+        final CityAdaptateur adapter = new CityAdaptateur(this, R.layout.activity_city_choice, android.R.layout.simple_list_item_1, cityLists);
+        mLocatedCity.setAdapter(adapter);
+        //Set listener for choice of City and get Country
+        mLocatedCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mCityObj = (CityList) adapterView.getItemAtPosition(i);
+                mCity= mCityObj.getName();
+                mCountry = mCityObj.getCountry();
+            }
+        });
 
-
-        //Monitor changing on inputText
-        mCityInput.addTextChangedListener(new TextWatcher() {
+        //Monitor changing on auto-completion text
+        mLocatedCity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                /* Set clickable for search button according to content*/
+                mSearchButton.setEnabled(charSequence.toString().length() != 0);
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                /* Set clickable for search button */
-                mSearchButton.setEnabled(charSequence.toString().length() != 0);
-                /* Monitor click events */
-                mSearchButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // The user just clicked
-                        if (mSearchButton.getText() == "OK") {
-                            /* Launch 5 next days results */
-                            Intent intent = new Intent(CityChoiceActivity.this, ForecastActivity.class);
-                            intent.putExtra("City", mCity);
-                            startActivity(intent);
-                        } else {
-                            mCity = mCityInput.getText().toString().trim();
-                            getWeather();
-                        }
-                    }
-                });
+                /* Set confirm text empty */
+                mConfirm.setText("");
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 mSearchButton.setText("Search !");
+            }
+        });
+
+        /* Monitor click events */
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // The user just clicked
+                if (mSearchButton.getText() == "OK") {
+                    /* Launch forecasts */
+                    Intent intent = new Intent(CityChoiceActivity.this, ForecastActivity.class);
+                    /* Add City and Country choosed to forecast */
+                    intent.putExtra("City", mCity);
+                    intent.putExtra("Country", mCountry);
+                    startActivity(intent);
+                } else {
+                    getWeather();
+                    mConfirm.setText("We found you in " + mCountry + ". Is it correct ?");
+                }
             }
         });
     }
@@ -125,29 +141,28 @@ public class CityChoiceActivity extends AppCompatActivity {
 
     /*-------API Usage-------*/
 
+    //Call to Weath API
     public void getWeather() {
         retrofitConfig.getApiWeather().getWeather(mCity, Constants.LANG, Constants.UNITS, Constants.APPID).enqueue(new Callback<CurrentWeatherData>() {
             @Override
             public void onResponse(Call<CurrentWeatherData> call, Response<CurrentWeatherData> response) {
-                CurrentWeatherData w = response.body();
-                if (w == null) {
+                CurrentWeatherData api_result = response.body();
+                mCountry = api_result.getSys().getCountry();
+                if (api_result == null) {
                     Log.d("FAILED", "Reponse from API call return NULL");
-                    mCountryFound.setText("");
                     Toast.makeText(getApplicationContext(), "It seems the city you entered is not known from us...", Toast.LENGTH_SHORT).show();
                 } else {
-                    mCountryFound.setText("We found you in " + w.getSys().getCountry() + ". Is it correct?");
                     mSearchButton.setText("OK");
-                    Log.d("SUCCESS", " Country found according to the City");
                 }
             }
-
             @Override
             public void onFailure(Call<CurrentWeatherData> call, Throwable t) {
-                Log.d(">>>>>>ERREUR !!!!!! ", "message : " + t + call);
+                Log.d("FAILED", "message : " + t + call);
             }
         });
     }
 
+    // Deserialize json with all world's city for auto-completion
     public void City() throws IOException {
         com.fasterxml.jackson.databind.ObjectMapper mapper = new ObjectMapper();
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);

@@ -10,6 +10,8 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.example.myweatherapp.R;
@@ -68,7 +70,9 @@ public class CityAdaptateur extends ArrayAdapter {
             if (constraint != null) {
                 suggestions.clear();
                 for (CityList c : tempCities) {
-                    if (c.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                    if (c.getName().toLowerCase().contains(constraint.toString().toLowerCase()) &&
+                        c.getCountry() != null &&
+                        c.getCoord() != null) {
                         suggestions.add(c);
                     }
                 }
