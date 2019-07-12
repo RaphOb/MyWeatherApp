@@ -19,12 +19,11 @@ import androidx.core.content.ContextCompat;
 public class LocationGPS extends AppCompatActivity implements LocationListener {
 
     final private int REQUEST_CODE_GPS_PERMISSIONS = 1;
-    private TextView latitude;
-    private TextView longitude;
     private Context context;
+    private double latitude;
+    private  double longitude;
 
-
-    public LocationGPS(TextView latitude, TextView longitude, Context context) {
+    public LocationGPS(double latitude, double longitude, Context context) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.context = context;
@@ -34,8 +33,8 @@ public class LocationGPS extends AppCompatActivity implements LocationListener {
         Location location = getLocation();
 
         if (location != null) {
-//            latitude.setText(String.format("Latitude: %s", location.getLatitude()));
-//            longitude.setText(String.format("Longitude: %s", location.getLongitude()));
+            latitude = location.getLatitude();
+            longitude =  location.getLongitude();
         }
     }
 

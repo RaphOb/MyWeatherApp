@@ -19,6 +19,7 @@ import com.example.myweatherapp.model.common.CityList;
 import com.example.myweatherapp.model.currentWeather.CurrentWeatherData;
 import com.example.myweatherapp.others.CityAdaptateur;
 import com.example.myweatherapp.others.Constants;
+import com.example.myweatherapp.service.LocationGPS;
 import com.example.myweatherapp.service.RetrofitConfig;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -52,6 +53,11 @@ public class CityChoiceActivity extends AppCompatActivity {
     public static List<CityList> mCityLists;
     public String mQuery;
 
+    //LOC GPS
+    private double lat;
+    private double lon;
+
+
     /*----------Activity Usage--------*/
 
     @Override
@@ -63,6 +69,10 @@ public class CityChoiceActivity extends AppCompatActivity {
         mSearchButton = findViewById(R.id.activity_city_choice_search_btn);
         mConfirm = findViewById(R.id.activity_city_choice_confirm_txt);
         mLocatedCity = findViewById(R.id.autoCompleteTextView);
+
+        LocationGPS locationGPS = new LocationGPS(lat, lon, this);
+        locationGPS.refreshLocation();
+        Log.d("LOC", String.valueOf(lat));
 
         mSearchButton.setEnabled(false);
         //Deserialize the list of city file
@@ -82,7 +92,7 @@ public class CityChoiceActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mCityObj = (CityList) adapterView.getItemAtPosition(i);
-                mCity= mCityObj.getName();
+                mCity = mCityObj.getName();
                 mCountry = mCityObj.getCountry();
                 mQuery = mCity + "," + mCountry;
             }
@@ -101,6 +111,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                 /* Set confirm text empty */
                 mConfirm.setText("");
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
                 mSearchButton.setText("Search !");
@@ -121,7 +132,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     getWeather();
-                    mConfirm.setText(mCity + " (" + mCountry + ")." +  "Is it correct ?");
+                    mConfirm.setText(mCity + " (" + mCountry + ")." + "Is it correct ?");
                 }
             }
         });
@@ -159,6 +170,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                     mSearchButton.setText("OK");
                 }
             }
+
             @Override
             public void onFailure(Call<CurrentWeatherData> call, Throwable t) {
                 Log.d("FAILED", "message : " + t + call);
