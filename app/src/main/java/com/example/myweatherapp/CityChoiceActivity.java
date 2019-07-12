@@ -50,6 +50,7 @@ public class CityChoiceActivity extends AppCompatActivity {
     private String mCountry;
     private CityList mCityObj;
     public static List<CityList> mCityLists;
+    public String mQuery;
 
     /*----------Activity Usage--------*/
 
@@ -83,6 +84,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                 mCityObj = (CityList) adapterView.getItemAtPosition(i);
                 mCity= mCityObj.getName();
                 mCountry = mCityObj.getCountry();
+                mQuery = mCity + "," + mCountry;
             }
         });
 
@@ -114,7 +116,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                     /* Launch forecasts */
                     Intent intent = new Intent(CityChoiceActivity.this, ForecastActivity.class);
                     /* Add City and Country choosed to forecast */
-                    intent.putExtra("City", mCity);
+                    intent.putExtra("City", mQuery);
                     intent.putExtra("Country", mCountry);
                     startActivity(intent);
                 } else {
