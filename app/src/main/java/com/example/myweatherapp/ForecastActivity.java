@@ -23,6 +23,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,6 +83,17 @@ public class ForecastActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     *Uses a ConcurrentHashMap instance to find out if there is any existing key with same value-
+     *  where key is obtained from a function reference.
+     * @param keyExtractor
+     * @param <T>
+     * @return
+     */
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Map<Object,Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
 
     /**
      * Api Call
@@ -92,11 +109,16 @@ public class ForecastActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SearchWeatherData> call, Response<SearchWeatherData> response) {
                 SearchWeatherData s = response.body();
+                List<ListCommon> tempList = response.body().getList()
+                        .stream()
+                        .filter(distinctByKey(b->b.getDate(b.getDtTxt())))
+                        .collect(Collectors.toList());
+
                 if (s == null) {
                     Log.d("FAILED", "Response from API call return NULL");
                     Toast.makeText(getApplicationContext(), "An error occured while getting weather data...", Toast.LENGTH_SHORT).show();
                 } else {
-                    for (ListCommon lw : s.getList()) {
+                    for (ListCommon lw : tempList) {
                         ListCommon l = new ListCommon();
                         Main m = new Main();
                         m.setTemp(lw.getMain().getTemp());
