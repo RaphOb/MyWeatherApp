@@ -39,6 +39,28 @@ public class ListCommon {
     @Expose
     private Clouds clouds;
 
+    @SerializedName("dt_txt")
+    @Expose
+    private String dtTxt;
+
+    @SerializedName("dt")
+    @Expose
+    private int dt;
+
+    private String DatesubString;
+
+    public String getDate(String dtTxt) {
+        return dtTxt.substring(0, Math.min(dtTxt.length(),10));
+    }
+
+    public int getDt() {
+        return dt;
+    }
+
+    public void setDt(int dt) {
+        this.dt = dt;
+    }
+
     public Coord getCoord() {
         return coord;
     }
@@ -47,9 +69,13 @@ public class ListCommon {
         this.coord = coord;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Sys getSys() {
         return sys;
@@ -97,5 +123,13 @@ public class ListCommon {
 
     public void setClouds(Clouds clouds) {
         this.clouds = clouds;
+    }
+
+    public String getDtTxt() {
+        return dtTxt;
+    }
+
+    public void setDtTxt(String dtTxt) {
+        this.dtTxt = dtTxt;
     }
 }
