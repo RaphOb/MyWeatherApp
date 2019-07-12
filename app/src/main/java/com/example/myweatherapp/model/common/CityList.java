@@ -2,7 +2,7 @@ package com.example.myweatherapp.model.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class CityList {
+public class CityList implements Comparable<CityList>{
 
     private Double id;
 
@@ -12,6 +12,11 @@ public class CityList {
 
     @JsonIgnore
     private Coord coord;
+
+    @Override
+    public int compareTo(CityList cl) {
+        return this.name.compareTo(cl.name);
+    }
 
     public Double getId() {
         return id;
