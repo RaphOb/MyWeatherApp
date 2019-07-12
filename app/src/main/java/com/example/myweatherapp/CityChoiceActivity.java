@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -48,7 +49,7 @@ public class CityChoiceActivity extends AppCompatActivity {
     private String mCity;
     private String mCountry;
     private CityList mCityObj;
-    public static List<CityList> cityLists;
+    public static List<CityList> mCityLists;
 
     /*----------Activity Usage--------*/
 
@@ -71,8 +72,9 @@ public class CityChoiceActivity extends AppCompatActivity {
         }
         //Start autoCompletion at 4 char
         mLocatedCity.setThreshold(4);
+        Collections.sort(mCityLists);
         //Load Adapter to set Autocompletion View
-        final CityAdaptateur adapter = new CityAdaptateur(this, R.layout.activity_city_choice, android.R.layout.simple_list_item_1, cityLists);
+        final CityAdaptateur adapter = new CityAdaptateur(this, R.layout.activity_city_choice, android.R.layout.simple_list_item_1, mCityLists);
         mLocatedCity.setAdapter(adapter);
         //Set listener for choice of City and get Country
         mLocatedCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -117,7 +119,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     getWeather();
-                    mConfirm.setText("We found you in " + mCountry + ". Is it correct ?");
+                    mConfirm.setText(mCity + " (" + mCountry + ")." +  "Is it correct ?");
                 }
             }
         });
@@ -171,7 +173,7 @@ public class CityChoiceActivity extends AppCompatActivity {
         AssetManager manager = getApplicationContext().getAssets();
         InputStream inputStreamCity = manager.open("city.list.json");
         try {
-            cityLists = mapper.readValue(inputStreamCity, typeReferenceCity);
+            mCityLists = mapper.readValue(inputStreamCity, typeReferenceCity);
             Log.d("SUCCESS", "City Saved");
         } catch (Exception e) {
             Log.d("ERREUR", "Impossible de charger le fichier");
