@@ -54,8 +54,6 @@ public class CityChoiceActivity extends AppCompatActivity {
     public String mQuery;
 
     //LOC GPS
-    private double lat;
-    private double lon;
 
 
     /*----------Activity Usage--------*/
@@ -70,9 +68,10 @@ public class CityChoiceActivity extends AppCompatActivity {
         mConfirm = findViewById(R.id.activity_city_choice_confirm_txt);
         mLocatedCity = findViewById(R.id.autoCompleteTextView);
 
-        LocationGPS locationGPS = new LocationGPS(lat, lon, this);
+        LocationGPS locationGPS = new LocationGPS(this);
         locationGPS.refreshLocation();
-        Log.d("LOC", String.valueOf(lat));
+        Log.d("LOC", String.valueOf(locationGPS.getLatitude()));
+        Log.d("LOC", String.valueOf(locationGPS.getLongitude()));
 
         mSearchButton.setEnabled(false);
         //Deserialize the list of city file

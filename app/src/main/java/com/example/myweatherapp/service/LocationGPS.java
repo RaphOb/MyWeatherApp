@@ -20,12 +20,26 @@ public class LocationGPS extends AppCompatActivity implements LocationListener {
 
     final private int REQUEST_CODE_GPS_PERMISSIONS = 1;
     private Context context;
-    private double latitude;
-    private  double longitude;
+    private double latitude = 0;
+    private  double longitude = 0;
 
-    public LocationGPS(double latitude, double longitude, Context context) {
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public LocationGPS( Context context) {
         this.context = context;
     }
 
