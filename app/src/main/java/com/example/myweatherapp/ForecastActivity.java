@@ -124,6 +124,7 @@ public class ForecastActivity extends AppCompatActivity {
                         m.setTemp(lw.getMain().getTemp());
                         l.setMain(m);
                         Weather w = new Weather();
+                        w.setIcon(lw.getWeathers().get(0).getIcon());
                         w.setDescription(lw.getWeathers().get(0).getDescription());
                         List<Weather> ll = new ArrayList<>();
                         ll.add(w);

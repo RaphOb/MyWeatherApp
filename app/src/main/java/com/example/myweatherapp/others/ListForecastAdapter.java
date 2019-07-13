@@ -1,13 +1,12 @@
 package com.example.myweatherapp.others;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.myweatherapp.R;
 import com.example.myweatherapp.model.common.ListCommon;
 
@@ -66,10 +65,15 @@ public class ListForecastAdapter extends BaseAdapter {
 
         TextView temperature = (TextView) view.findViewById(R.id.day_row_temperature);
         TextView description = (TextView) view.findViewById(R.id.day_row_description);
+        ImageView imageView =  view.findViewById(R.id.imageView);
 
+        String url = Constants.URL_ICON + day.getWeathers().get(0).getIcon();
+        new DownloadImageTask(imageView).execute(url);
         temperature.setText(String.valueOf(day.getMain().getTemp()));
         description.setText(String.valueOf(day.getWeathers().get(0).getDescription()));
 
         return view;
     }
+
 }
+
