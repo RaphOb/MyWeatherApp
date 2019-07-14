@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.example.myweatherapp.model.common.ListCommon;
+import com.example.myweatherapp.model.common.Wind;
 import com.example.myweatherapp.others.ListForecastAdapter;
 import com.example.myweatherapp.model.common.Main;
 import com.example.myweatherapp.model.common.Weather;
@@ -179,7 +180,11 @@ public class ForecastActivity extends AppCompatActivity {
         String icon = lw.getWeathers().get(0).getIcon();
         String description = lw.getWeathers().get(0).getDescription();
         String mainWeather = lw.getWeathers().get(0).getMain();
+        Double windSpeed = (double)Math.round(lw.getWind().getSpeed() * 3.6);
+        Double windOrientation = lw.getWind().getDeg();
+        Double humidity =  lw.getMain().getHumidity();
         Log.d("WInd Orientation", GetWindOrientation(lw.getWind().getDeg()));
+        Log.d("wind SPeed", String.valueOf(lw.getWind().getSpeed()));
 
         Log.d("WEATHER", mainWeather);
         //Set image from mainWeather only for the most recent forecast
@@ -189,11 +194,16 @@ public class ForecastActivity extends AppCompatActivity {
         //Insert these data in a new list
         ListCommon l = new ListCommon();
         Main m = new Main();
+        m.setHumidity(humidity); //Pas besoin de l'afficher dans le listView, on l'affichera quand on cliquera sur la liste view pour plus de precisions.
         m.setTemp(temperature);
         l.setMain(m);
         Weather w = new Weather();
         w.setIcon(icon);
         w.setDescription(description);
+        Wind v = new Wind();
+        v.setDeg(windOrientation);
+        v.setSpeed(windSpeed);
+        l.setWind(v);
 
         List<Weather> ll = new ArrayList<>();
         ll.add(w);
