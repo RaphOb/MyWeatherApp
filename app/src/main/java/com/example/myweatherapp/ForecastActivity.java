@@ -14,9 +14,11 @@ import com.example.myweatherapp.service.RetrofitConfig;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,8 @@ import retrofit2.Response;
 
 public class ForecastActivity extends AppCompatActivity {
     //Visual Elements
+    private ImageView currentWeatherView;
+    private TextView currentWeatherDescr;
     private List<ListCommon> mForecastList;
     private ListView mListView;
     private ListForecastAdapter mAdapter;
@@ -63,6 +67,9 @@ public class ForecastActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forecast);
 
+        //Init the ImageView and it's weather description
+        currentWeatherView = findViewById(R.id.state);
+        currentWeatherDescr = findViewById(R.id.description);
         //Init the listView
         mListView = findViewById(R.id.activity_forecasts);
         //Init the list for datas
@@ -118,22 +125,13 @@ public class ForecastActivity extends AppCompatActivity {
                     Log.d("FAILED", "Response from API call return NULL");
                     Toast.makeText(getApplicationContext(), "An error occured while getting weather data...", Toast.LENGTH_SHORT).show();
                 } else {
+                    int done = 0;
                     for (ListCommon lw : tempList) {
-                        ListCommon l = new ListCommon();
-                        Main m = new Main();
-                        m.setTemp(lw.getMain().getTemp());
-                        l.setMain(m);
-                        Weather w = new Weather();
-                        w.setIcon(lw.getWeathers().get(0).getIcon());
-                        w.setDescription(lw.getWeathers().get(0).getDescription());
-                        List<Weather> ll = new ArrayList<>();
-                        ll.add(w);
-                        l.setWeathers(ll);
-
-                        mForecastList.add(l);
+                        ListCommon copy = createOwnList(lw, done);
+                        done = 1;
+                        mForecastList.add(copy);
                         mAdapter.notifyDataSetChanged();
                     }
-
 
 //                    int day = 0;
 //                    Iterator<ListCommon> iterator = mForecastList.iterator();
@@ -168,6 +166,65 @@ public class ForecastActivity extends AppCompatActivity {
             }
         });
     }
+
+    //Create a list used to show datas
+    public ListCommon createOwnList(ListCommon lw, int done)
+    {
+        //Get data from getted List
+        double temperature = lw.getMain().getTemp();
+        String icon = lw.getWeathers().get(0).getIcon();
+        String description = lw.getWeathers().get(0).getDescription();
+        String mainWeather = lw.getWeathers().get(0).getMain();
+
+        Log.d("WEATHER", mainWeather);
+        //Set image from mainWeather only for the most recent forecast
+        if (done == 0)
+            manageImageFromWeather(mainWeather);
+
+        //Insert these data in a new list
+        ListCommon l = new ListCommon();
+        Main m = new Main();
+        m.setTemp(temperature);
+        l.setMain(m);
+        Weather w = new Weather();
+        w.setIcon(icon);
+        w.setDescription(description);
+
+        List<Weather> ll = new ArrayList<>();
+        ll.add(w);
+        l.setWeathers(ll);
+        return l;
+    }
+
+    //Set image according to most recent forecast Weather
+    public void manageImageFromWeather(String mainWeather)
+    {
+        if (mainWeather.equals("Clouds"))
+        {
+            currentWeatherView.setImageResource(R.drawable.couvert);
+            currentWeatherDescr.setText("Actuellement: Couvert");
+        }
+        if (mainWeather.equals("Rain"))
+        {
+            currentWeatherView.setImageResource(R.drawable.rain);
+            currentWeatherDescr.setText("Actuellement: Pluie");
+        }
+        if (mainWeather.equals("Clear"))
+        {
+            currentWeatherView.setImageResource(R.drawable.sun);
+            currentWeatherDescr.setText("Actuellement: Dégagé");
+        }
+        //TODO
+       /* if (mainWeather.equals("Snow"))
+        {
+            currentWeatherView.setImageResource(R.drawable.couvert);
+        }
+        if (mainWeather.equals("Mist"))
+        {
+            currentWeatherView.setImageResource(R.drawable.couvert);
+        }*/
+    }
+
 }
 
 

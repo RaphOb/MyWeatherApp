@@ -4,24 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#dcf9ff"
     tools:context=".ForecastActivity">
 
-    <TextView
-        android:id="@+id/current_day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/title_home">
-    </TextView>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="251dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/state"
+            android:layout_width="match_parent"
+            android:layout_height="231dp"
+            android:src="@drawable/rain" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="70dp"
+            android:padding="10dp"
+            android:text="Actuellement : Forte pluie"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+    </FrameLayout>
 
     <ListView
         android:id="@+id/activity_forecasts"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="386dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="300dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"></ListView>
+        android:layout_marginBottom="8dp"
+        android:background="#dcf9ff"></ListView>
 
 </LinearLayout>
