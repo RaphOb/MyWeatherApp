@@ -10,6 +10,9 @@ import com.example.myweatherapp.model.common.Weather;
 import com.example.myweatherapp.model.searchData.SearchWeatherData;
 import com.example.myweatherapp.others.Constants;
 import com.example.myweatherapp.service.RetrofitConfig;
+import com.google.common.collect.Range;
+import com.google.common.collect.RangeMap;
+import com.google.common.collect.TreeRangeMap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +29,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -175,6 +179,7 @@ public class ForecastActivity extends AppCompatActivity {
         String icon = lw.getWeathers().get(0).getIcon();
         String description = lw.getWeathers().get(0).getDescription();
         String mainWeather = lw.getWeathers().get(0).getMain();
+        Log.d("WInd Orientation", GetWindOrientation(lw.getWind().getDeg()));
 
         Log.d("WEATHER", mainWeather);
         //Set image from mainWeather only for the most recent forecast
@@ -223,6 +228,22 @@ public class ForecastActivity extends AppCompatActivity {
         {
             currentWeatherView.setImageResource(R.drawable.couvert);
         }*/
+    }
+
+    public String GetWindOrientation(double value) {
+        RangeMap<Integer, String> WindDirection = TreeRangeMap.create();
+        WindDirection.put(Range.closed(340, 360), "ARROW NORD");
+        WindDirection.put(Range.closed(0, 15), "ARROW NORD");
+        WindDirection.put(Range.closed(16, 80), "ARROW NORD-EST");
+        WindDirection.put(Range.closed(81, 110), "ARROW EST");
+        WindDirection.put(Range.closed(111, 160), "ARROW SUD-EST");
+        WindDirection.put(Range.closed(161, 200), "ARROW SUD");
+        WindDirection.put(Range.closed(201, 250), "ARROW SUD-OUEST");
+        WindDirection.put(Range.closed(251, 300), "ARROW OUEST");
+        WindDirection.put(Range.closed(301, 339), "ARROW NORD-OUEST");
+        Integer deg = (int)value;
+
+        return WindDirection.get((deg));
     }
 
 }
