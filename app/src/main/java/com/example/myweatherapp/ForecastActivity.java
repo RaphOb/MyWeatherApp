@@ -1,6 +1,7 @@
 package com.example.myweatherapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.myweatherapp.model.common.ListCommon;
@@ -94,7 +95,13 @@ public class ForecastActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                //Day to define with more precisions
                 ListCommon day1 = mForecastList.get(position);
+                //Start new activity
+               /* Intent intent = new Intent();
+                intent.putExtra("position", position);
+                intent.putExtra("id", id);
+                startActivity(intent);*/
             }
         });
     }
