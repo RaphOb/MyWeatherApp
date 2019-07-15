@@ -11,14 +11,17 @@ import com.example.myweatherapp.model.common.Weather;
 import com.example.myweatherapp.model.searchData.SearchWeatherData;
 import com.example.myweatherapp.others.Constants;
 import com.example.myweatherapp.service.RetrofitConfig;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.Display;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -49,6 +52,8 @@ public class ForecastActivity extends AppCompatActivity {
     private ListView mListView;
     private ListForecastAdapter mAdapter;
 
+    private TextView mTextMessage;
+
     private TextView[] mTemp;
     private TextView[] mTempMax;
     private TextView[] mTempMin;
@@ -61,7 +66,6 @@ public class ForecastActivity extends AppCompatActivity {
     private TextView[] mDescription;
     private TextView[] mIcon;
     private ImageView[] iconView;
-
 
 
     //Retrofit instance
@@ -96,14 +100,15 @@ public class ForecastActivity extends AppCompatActivity {
     }
 
     /**
-     *Uses a ConcurrentHashMap instance to find out if there is any existing key with same value-
-     *  where key is obtained from a function reference.
+     * Uses a ConcurrentHashMap instance to find out if there is any existing key with same value-
+     * where key is obtained from a function reference.
+     *
      * @param keyExtractor
      * @param <T>
      * @return
      */
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
-        Map<Object,Boolean> seen = new ConcurrentHashMap<>();
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
@@ -123,7 +128,7 @@ public class ForecastActivity extends AppCompatActivity {
                 SearchWeatherData s = response.body();
                 List<ListCommon> tempList = response.body().getList()
                         .stream()
-                        .filter(distinctByKey(b->b.getDate(b.getDtTxt())))
+                        .filter(distinctByKey(b -> b.getDate(b.getDtTxt())))
                         .collect(Collectors.toList());
 
                 if (s == null) {
@@ -173,16 +178,15 @@ public class ForecastActivity extends AppCompatActivity {
     }
 
     //Create a list used to show datas
-    public ListCommon createOwnList(ListCommon lw, int done)
-    {
+    public ListCommon createOwnList(ListCommon lw, int done) {
         //Get data from getted List
         double temperature = lw.getMain().getTemp();
         String icon = lw.getWeathers().get(0).getIcon();
         String description = lw.getWeathers().get(0).getDescription();
         String mainWeather = lw.getWeathers().get(0).getMain();
-        Double windSpeed = (double)Math.round(lw.getWind().getSpeed() * 3.6);
+        Double windSpeed = (double) Math.round(lw.getWind().getSpeed() * 3.6);
         Double windOrientation = lw.getWind().getDeg();
-        Double humidity =  lw.getMain().getHumidity();
+        Double humidity = lw.getMain().getHumidity();
         Log.d("WInd Orientation", GetWindOrientation(lw.getWind().getDeg()));
         Log.d("wind SPeed", String.valueOf(lw.getWind().getSpeed()));
 
@@ -212,20 +216,16 @@ public class ForecastActivity extends AppCompatActivity {
     }
 
     //Set image according to most recent forecast Weather
-    public void manageImageFromWeather(String mainWeather)
-    {
-        if (mainWeather.equals("Clouds"))
-        {
+    public void manageImageFromWeather(String mainWeather) {
+        if (mainWeather.equals("Clouds")) {
             currentWeatherView.setImageResource(R.drawable.couvert);
             currentWeatherDescr.setText("Actuellement: Couvert");
         }
-        if (mainWeather.equals("Rain"))
-        {
+        if (mainWeather.equals("Rain")) {
             currentWeatherView.setImageResource(R.drawable.rain);
             currentWeatherDescr.setText("Actuellement: Pluie");
         }
-        if (mainWeather.equals("Clear"))
-        {
+        if (mainWeather.equals("Clear")) {
             currentWeatherView.setImageResource(R.drawable.sun);
             currentWeatherDescr.setText("Actuellement: Dégagé");
         }
@@ -251,30 +251,27 @@ public class ForecastActivity extends AppCompatActivity {
         WindDirection.put(Range.closed(201, 250), "ARROW SUD-OUEST");
         WindDirection.put(Range.closed(251, 300), "ARROW OUEST");
         WindDirection.put(Range.closed(301, 339), "ARROW NORD-OUEST");
-        Integer deg = (int)value;
+        Integer deg = (int) value;
 
         return WindDirection.get((deg));
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    mTextMessage.setText(R.string.title_home);
+                case R.id.navigation_dashboard:
+                    mTextMessage.setText(R.string.title_dashboard);
+                    return true;
+                case R.id.navigation_notifications:
+                    mTextMessage.setText(R.string.title_notifications);
+            }
+            return false;
+        }
+    };
+
 }
-
-
-//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-//
-//        @Override
-//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            switch (item.getItemId()) {
-//                case R.id.navigation_home:
-//                    mTextMessage.setText(R.string.title_home);
-//                    return true;
-//                case R.id.navigation_dashboard:
-//                    mTextMessage.setText(R.string.title_dashboard);
-//                    return true;
-//                case R.id.navigation_notifications:
-//                    mTextMessage.setText(R.string.title_notifications);
-//                    return true;
-//            }
-//            return false;
-//        }
-//    };

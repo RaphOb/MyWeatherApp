@@ -161,11 +161,11 @@ public class CityChoiceActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CurrentWeatherData> call, Response<CurrentWeatherData> response) {
                 CurrentWeatherData api_result = response.body();
-                mCountry = api_result.getSys().getCountry();
                 if (api_result == null) {
                     Log.d("FAILED", "Reponse from API call return NULL");
                     Toast.makeText(getApplicationContext(), "It seems the city you entered is not known from us...", Toast.LENGTH_SHORT).show();
                 } else {
+                    mCountry = api_result.getSys().getCountry();
                     mSearchButton.setText("OK");
                 }
             }
