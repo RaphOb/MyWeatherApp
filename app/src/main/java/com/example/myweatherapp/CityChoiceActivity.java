@@ -68,6 +68,7 @@ public class CityChoiceActivity extends AppCompatActivity {
         mConfirm = findViewById(R.id.activity_city_choice_confirm_txt);
         mLocatedCity = findViewById(R.id.autoCompleteTextView);
 
+        //Set GPS
         LocationGPS locationGPS = new LocationGPS(this);
         locationGPS.refreshLocation();
         Log.d("LOC", String.valueOf(locationGPS.getLatitude()));
@@ -132,7 +133,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     getWeather();
-                    mConfirm.setText(mCity + " (" + mCountry + ")." + "Is it correct ?");
+                    mConfirm.setText(mCity + " (" + mCountry + ")." + " Is it correct ?");
                 }
             }
         });

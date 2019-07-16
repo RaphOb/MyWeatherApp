@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#dcf9ff">
@@ -13,7 +14,7 @@
 
         <ImageView
             android:id="@+id/state"
-            android:layout_width="223dp"
+            android:layout_width="204dp"
             android:layout_height="match_parent"
             android:src="@drawable/rain" />
 
@@ -81,10 +82,10 @@
     </FrameLayout>
 
     <ListView
+        android:id="@+id/day_3hours_forecast"
         android:layout_width="match_parent"
-        android:layout_height="314dp"
+        android:layout_height="302dp"
         android:layout_alignTop="@+id/top"
-        android:layout_marginTop="277dp">
-    </ListView>
+        android:layout_marginTop="277dp"></ListView>
 
 </RelativeLayout>
