@@ -194,7 +194,6 @@ public class ForecastActivity extends AppCompatActivity {
         Double windSpeed = (double) Math.round(lw.getWind().getSpeed() * 3.6);
         Double windOrientation = lw.getWind().getDeg();
         Double humidity = lw.getMain().getHumidity();
-        Log.d("WInd Orientation", GetWindOrientation(lw.getWind().getDeg()));
         Log.d("wind SPeed", String.valueOf(lw.getWind().getSpeed()));
 
         Log.d("WEATHER", mainWeather);
@@ -247,17 +246,17 @@ public class ForecastActivity extends AppCompatActivity {
         }*/
     }
 
-    public String GetWindOrientation(double value) {
-        RangeMap<Integer, String> WindDirection = TreeRangeMap.create();
-        WindDirection.put(Range.closed(340, 360), "ARROW NORD");
-        WindDirection.put(Range.closed(0, 15), "ARROW NORD");
-        WindDirection.put(Range.closed(16, 80), "ARROW NORD-EST");
-        WindDirection.put(Range.closed(81, 110), "ARROW EST");
-        WindDirection.put(Range.closed(111, 160), "ARROW SUD-EST");
-        WindDirection.put(Range.closed(161, 200), "ARROW SUD");
-        WindDirection.put(Range.closed(201, 250), "ARROW SUD-OUEST");
-        WindDirection.put(Range.closed(251, 300), "ARROW OUEST");
-        WindDirection.put(Range.closed(301, 339), "ARROW NORD-OUEST");
+    public Integer GetWindOrientation(double value) {
+        RangeMap<Integer, Integer> WindDirection = TreeRangeMap.create();
+        WindDirection.put(Range.closed(340, 360), R.drawable.Nwind);
+        WindDirection.put(Range.closed(0, 15), R.drawable.Nwind);
+        WindDirection.put(Range.closed(16, 80), R.drawable.NEwind);
+        WindDirection.put(Range.closed(81, 110), R.drawable.Ewind);
+        WindDirection.put(Range.closed(111, 160), R.drawable.SEwind);
+        WindDirection.put(Range.closed(161, 200), R.drawable.Swind);
+        WindDirection.put(Range.closed(201, 250), R.drawable.SOwind);
+        WindDirection.put(Range.closed(251, 300), R.drawable.Owind);
+        WindDirection.put(Range.closed(301, 339), R.drawable.NOwind);
         Integer deg = (int) value;
 
         return WindDirection.get((deg));
