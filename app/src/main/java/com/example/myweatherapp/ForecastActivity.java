@@ -1,7 +1,6 @@
 package com.example.myweatherapp;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.myweatherapp.model.common.ListCommon;
@@ -21,12 +20,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
-import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,11 +31,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import retrofit2.Call;
@@ -248,15 +243,15 @@ public class ForecastActivity extends AppCompatActivity {
 
     public Integer GetWindOrientation(double value) {
         RangeMap<Integer, Integer> WindDirection = TreeRangeMap.create();
-        WindDirection.put(Range.closed(340, 360), R.drawable.Nwind);
-        WindDirection.put(Range.closed(0, 15), R.drawable.Nwind);
-        WindDirection.put(Range.closed(16, 80), R.drawable.NEwind);
-        WindDirection.put(Range.closed(81, 110), R.drawable.Ewind);
-        WindDirection.put(Range.closed(111, 160), R.drawable.SEwind);
-        WindDirection.put(Range.closed(161, 200), R.drawable.Swind);
-        WindDirection.put(Range.closed(201, 250), R.drawable.SOwind);
-        WindDirection.put(Range.closed(251, 300), R.drawable.Owind);
-        WindDirection.put(Range.closed(301, 339), R.drawable.NOwind);
+        WindDirection.put(Range.closed(340, 360), R.drawable.nwind);
+        WindDirection.put(Range.closed(0, 15), R.drawable.nwind);
+        WindDirection.put(Range.closed(16, 80), R.drawable.newind);
+        WindDirection.put(Range.closed(81, 110), R.drawable.ewind);
+        WindDirection.put(Range.closed(111, 160), R.drawable.sewind);
+        WindDirection.put(Range.closed(161, 200), R.drawable.swind);
+        WindDirection.put(Range.closed(201, 250), R.drawable.sowind);
+        WindDirection.put(Range.closed(251, 300), R.drawable.owind);
+        WindDirection.put(Range.closed(301, 339), R.drawable.nowind);
         Integer deg = (int) value;
 
         return WindDirection.get((deg));
