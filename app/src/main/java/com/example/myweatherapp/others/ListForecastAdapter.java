@@ -23,12 +23,18 @@ public class ListForecastAdapter extends BaseAdapter {
 
     private Context context;
     private List<ListCommon> forecast;
+    private String mDate;
 
     public ListForecastAdapter(Context context, List<ListCommon> forecast)
     {
         this.context = context;
         this.forecast = forecast;
 
+    }
+
+    public String getDate()
+    {
+        return mDate;
     }
 
     public List<ListCommon> getForeCast5Days() {
@@ -91,15 +97,17 @@ public class ListForecastAdapter extends BaseAdapter {
         //If February
         if (getCurrentMonth() == 2)
         {
-            current_day.setText(currentDay + " " + String.valueOf((getCurrentMonthDay() + position) % 28));
+            mDate = currentDay + " " + String.valueOf((getCurrentMonthDay() + position) % 28);
         }
         else if(getCurrentMonth() % 2 == 0) {
-            current_day.setText(currentDay + " " + String.valueOf((getCurrentMonthDay() + position) % 31));
+            mDate = currentDay + " " + String.valueOf((getCurrentMonthDay() + position) % 31);
         }
         else{
-            current_day.setText(currentDay + " " + String.valueOf((getCurrentMonthDay() + position) % 30));
-        }
+            mDate = currentDay + " " + String.valueOf((getCurrentMonthDay() + position) % 30);
 
+        }
+        //Set the date
+        current_day.setText(mDate);
         //Downloads icon
         String url = Constants.URL_ICON + day.getWeathers().get(0).getIcon();
         new DownloadImageTask(imageView).execute(url);

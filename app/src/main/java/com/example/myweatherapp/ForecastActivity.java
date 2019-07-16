@@ -51,20 +51,6 @@ public class ForecastActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
-    private TextView[] mTemp;
-    private TextView[] mTempMax;
-    private TextView[] mTempMin;
-    private TextView[] mWindSpeed;
-    private TextView[] mWindOrientation;
-    private TextView[] mTempActuelle;
-    private TextView[] mPressure;
-    private TextView[] mHumidity;
-    private TextView[] mRain;
-    private TextView[] mDescription;
-    private TextView[] mIcon;
-    private ImageView[] iconView;
-
-
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
 
@@ -93,9 +79,13 @@ public class ForecastActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 //Day to define with more precisions
                 ListCommon day1 = mForecastList.get(position);
+                //Intent to get City and Country
+                Intent myIntent = getIntent();
                 //Start new activity
                 Intent intent = new Intent(ForecastActivity.this, DayDetailsActivity.class);
                 intent.putExtra("position", position);
+                intent.putExtra("City", myIntent.getStringExtra("City"));
+                intent.putExtra("Country", myIntent.getStringExtra("Country"));
                 startActivity(intent);
             }
         });
