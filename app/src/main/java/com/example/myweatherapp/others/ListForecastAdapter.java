@@ -82,17 +82,23 @@ public class ListForecastAdapter extends BaseAdapter {
         //Set visual elemnts
         temperature.setText(String.valueOf((int)day.getMain().getTemp()) + "°C");
 
-        //Set current Day
+        //Set days
+        int numDay = (getCurrentDay() + position) % 7;
+        //0 isn't a valid number for a day (start at 1)
+        if (numDay == 0)
+            numDay = getCurrentDay();
+
+        String currentDay = convertIntToDay(numDay);
         //If February
-        if (getCurrentMonth() == 1)
+        if (getCurrentMonth() == 2)
         {
-            current_day.setText(convertIntToDay((getCurrentDay() + position) % 8) + " " + String.valueOf((getCurrentMonthDay() + position) % 28));
+            current_day.setText(currentDay + " " + String.valueOf((getCurrentMonthDay() + position) % 28));
         }
         else if(getCurrentMonth() % 2 == 0) {
-            current_day.setText(convertIntToDay((getCurrentDay() + position) % 8) + " " + String.valueOf((getCurrentMonthDay() + position) % 31));
+            current_day.setText(currentDay + " " + String.valueOf((getCurrentMonthDay() + position) % 31));
         }
         else{
-            current_day.setText(convertIntToDay((getCurrentDay() + position)%8) + " " + String.valueOf((getCurrentMonthDay() + position)%30));
+            current_day.setText(currentDay + " " + String.valueOf((getCurrentMonthDay() + position)%30));
         }
 
         //description.setText(String.valueOf(day.getWeathers().get(0).getDescription()));
@@ -123,8 +129,6 @@ public class ListForecastAdapter extends BaseAdapter {
     public String convertIntToDay(int currentDay)
     {
         switch (currentDay) {
-            case Calendar.SUNDAY:
-                return "Sunday";
             case Calendar.MONDAY:
                 return "Monday";
             case Calendar.TUESDAY:
@@ -137,8 +141,12 @@ public class ListForecastAdapter extends BaseAdapter {
                 return "Friday";
             case Calendar.SATURDAY:
                 return "Saturday";
+            case Calendar.SUNDAY:
+                return "Sunday";
+            default:
+                Log.d("INFO", String.valueOf(currentDay));
+                return String.valueOf(currentDay);
         }
-        return "undefined";
     }
 }
 
