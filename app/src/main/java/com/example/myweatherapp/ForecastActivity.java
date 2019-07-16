@@ -1,6 +1,7 @@
 package com.example.myweatherapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.myweatherapp.model.common.ListCommon;
@@ -93,10 +94,9 @@ public class ForecastActivity extends AppCompatActivity {
                 //Day to define with more precisions
                 ListCommon day1 = mForecastList.get(position);
                 //Start new activity
-               /* Intent intent = new Intent();
+                Intent intent = new Intent(ForecastActivity.this, DayDetailsActivity.class);
                 intent.putExtra("position", position);
-                intent.putExtra("id", id);
-                startActivity(intent);*/
+                startActivity(intent);
             }
         });
     }
@@ -218,17 +218,18 @@ public class ForecastActivity extends AppCompatActivity {
 
     //Set image according to most recent forecast Weather
     public void manageImageFromWeather(String mainWeather) {
+        Intent myIntent = getIntent();
         if (mainWeather.equals("Clouds")) {
             currentWeatherView.setImageResource(R.drawable.couvert);
-            currentWeatherDescr.setText("Actuellement: Couvert");
+            currentWeatherDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Couvert");
         }
         if (mainWeather.equals("Rain")) {
             currentWeatherView.setImageResource(R.drawable.rain);
-            currentWeatherDescr.setText("Actuellement: Pluie");
+            currentWeatherDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Pluie");
         }
         if (mainWeather.equals("Clear")) {
             currentWeatherView.setImageResource(R.drawable.sun);
-            currentWeatherDescr.setText("Actuellement: Dégagé");
+            currentWeatherDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Dégagé");
         }
         //TODO
        /* if (mainWeather.equals("Snow"))

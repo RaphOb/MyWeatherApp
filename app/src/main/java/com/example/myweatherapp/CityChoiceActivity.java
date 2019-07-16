@@ -126,7 +126,8 @@ public class CityChoiceActivity extends AppCompatActivity {
                     /* Launch forecasts */
                     Intent intent = new Intent(CityChoiceActivity.this, ForecastActivity.class);
                     /* Add City and Country choosed to forecast */
-                    intent.putExtra("City", mQuery);
+                    intent.putExtra("Query", mQuery);
+                    intent.putExtra("City", mCity);
                     intent.putExtra("Country", mCountry);
                     startActivity(intent);
                 } else {

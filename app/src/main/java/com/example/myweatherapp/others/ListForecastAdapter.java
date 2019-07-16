@@ -105,8 +105,7 @@ public class ListForecastAdapter extends BaseAdapter {
         new DownloadImageTask(imageView).execute(url);
 
         //Set height for a row
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 50));
-        params.height = 140;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 135));
         view.setLayoutParams(params);
         return view;
     }
