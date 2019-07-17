@@ -24,7 +24,7 @@ public class ListForecastAdapter extends BaseAdapter {
 
     private Context context;
     private List<ListCommon> forecast;
-    private String mDate;
+    private String mDay;
 
     public ListForecastAdapter(Context context, List<ListCommon> forecast)
     {
@@ -35,7 +35,7 @@ public class ListForecastAdapter extends BaseAdapter {
 
     public String getDate()
     {
-        return mDate;
+        return mDay;
     }
 
     public List<ListCommon> getForeCast5Days() {
@@ -90,21 +90,9 @@ public class ListForecastAdapter extends BaseAdapter {
             current_day.setTypeface(null, Typeface.BOLD);
         }
 
-        String currentDay = getDayForList(position);
-        //If February
-        if (getCurrentMonth() == 2)
-        {
-            mDate = currentDay;
-        }
-        else if(getCurrentMonth() % 2 == 0) {
-            mDate = currentDay;
-        }
-        else{
-            mDate = currentDay;
-
-        }
+        mDay = getDayForList(position);
         //Set the date
-        current_day.setText(mDate + "\n" + day.getDtTxt());
+        current_day.setText(mDay + "\n" + day.getDtTxt());
         //Downloads icon
         String url = Constants.URL_ICON + day.getWeathers().get(0).getIcon();
         new DownloadImageTask(imageView).execute(url);
@@ -119,7 +107,7 @@ public class ListForecastAdapter extends BaseAdapter {
     {
         Calendar calendar = Calendar.getInstance();
         //Set the current day
-        return calendar.get(Calendar.DAY_OF_WEEK);
+        return calendar.get(Calendar.DAY_OF_WEEK) - 1;
     }
 
     public int getCurrentMonth()
@@ -130,24 +118,24 @@ public class ListForecastAdapter extends BaseAdapter {
 
     public String convertIntToDay(int currentDay)
     {
+        Log.d("INFO", "CONVERSION DE " + currentDay);
         switch (currentDay) {
-            case Calendar.MONDAY:
+            case 1:
                 return "Lundi";
-            case Calendar.TUESDAY:
+            case 2:
                 return "Mardi";
-            case Calendar.WEDNESDAY:
+            case 3:
                 return "Mercredi";
-            case Calendar.THURSDAY:
+            case 4:
                 return "Jeudi";
-            case Calendar.FRIDAY:
+            case 5:
                 return "Vendredi";
-            case Calendar.SATURDAY:
+            case 6:
                 return "Samedi";
-            case Calendar.SUNDAY:
+            case 7:
                 return "Dimanche";
             default:
-                Log.d("INFO", String.valueOf(currentDay));
-                return String.valueOf(currentDay);
+                return "undefined";
         }
     }
 
@@ -155,11 +143,16 @@ public class ListForecastAdapter extends BaseAdapter {
     public String getDayForList(int position)
     {
         //Set days
-        int numDay = (getCurrentDay() + position) % 7;
+        int numDay = (getCurrentDay() + position) % 8;
+        Log.d("INFO", "NUMERO DE JOUR " + getCurrentDay());
+        Log.d("INFO", "POSITION COURANTE" + position);
+        Log.d("INFO", "Calcul : " + getCurrentDay() + " " + position);
+
         //0 isn't a valid number for a day (start at 1)
         if (numDay == 0)
-            numDay = getCurrentDay();
+            numDay = 1;
 
+        Log.d("INFO", "Jour calculé " + numDay);
         return convertIntToDay(numDay);
     }
 }
