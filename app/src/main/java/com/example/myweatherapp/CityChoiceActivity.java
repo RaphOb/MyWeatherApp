@@ -47,6 +47,7 @@ public class CityChoiceActivity extends AppCompatActivity {
     RetrofitConfig retrofitConfig = new RetrofitConfig();
 
     //Converted Data
+    private int mId;
     private String mCity;
     private String mCountry;
     private CityList mCityObj;
@@ -94,6 +95,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                 mCityObj = (CityList) adapterView.getItemAtPosition(i);
                 mCity = mCityObj.getName();
                 mCountry = mCityObj.getCountry();
+                mId = mCityObj.getId();
                 mQuery = mCity + "," + mCountry;
             }
         });
@@ -130,6 +132,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                     intent.putExtra("Query", mQuery);
                     intent.putExtra("City", mCity);
                     intent.putExtra("Country", mCountry);
+                    intent.putExtra("id", mId);
                     startActivity(intent);
                 } else {
                     getWeather();

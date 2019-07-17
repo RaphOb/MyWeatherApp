@@ -2,6 +2,6 @@
     <string name="app_name">MyWeatherApp</string>
     <string name="title_gps">GPS</string>
     <string name="title_search">Search</string>
-    <string name="title_fav">Notifications</string>
+    <string name="title_fav">Favoris</string>
     <string name="title_activity_forecast">ForecastActivity</string>
 </resources>

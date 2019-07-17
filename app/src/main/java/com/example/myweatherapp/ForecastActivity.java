@@ -76,7 +76,7 @@ public class ForecastActivity extends AppCompatActivity {
         //Set possibility to click on a list element
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long ids) {
                 //Day to define with more precisions
                 ListCommon day1 = mForecastList.get(position);
                 //Intent to get City and Country
@@ -86,6 +86,7 @@ public class ForecastActivity extends AppCompatActivity {
                 intent.putExtra("position", position);
                 intent.putExtra("City", myIntent.getStringExtra("City"));
                 intent.putExtra("Country", myIntent.getStringExtra("Country"));
+                intent.putExtra("id", myIntent.getIntExtra("id", 0));
                 startActivity(intent);
             }
         });

@@ -16,4 +16,7 @@ public interface ApiWeather {
 
     @GET("forecast")
     Call<SearchWeatherData> getForecast(@Query("q") String q, @Query("lang") String lang, @Query("units") String units, @Query("APPID") String appid);
+
+    @GET("forecast")
+    Call<SearchWeatherData> getDayDetails(@Query("id") int id, @Query("lang") String lang, @Query("units") String units, @Query("APPID") String appid);
 }
