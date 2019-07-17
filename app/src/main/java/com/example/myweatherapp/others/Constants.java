@@ -10,4 +10,5 @@ public class Constants {
     //URLs
     public static final String API_URL = "https://api.openweathermap.org/data/2.5/" ;
     public static final String URL_ICON = "https://api.openweathermap.org/img/w/";
+    public static final String URL_ICON2 = "https://openweathermap.org/img/wn/";
 }

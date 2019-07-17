@@ -3,6 +3,8 @@ package com.example.myweatherapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -68,11 +70,11 @@ public class DayDetailsActivity extends AppCompatActivity {
         mDayList = new ArrayList<>();
         getDayDetails();
 
-        mAdapter = new ListDaydetailsAdapter(getApplicationContext(), mDayList);
-        mListView.setAdapter(mAdapter);
-
         Intent myIntent = getIntent();
         mPlace.setText(myIntent.getStringExtra("City") + " " + myIntent.getStringExtra("Country"));
+
+        mAdapter = new ListDaydetailsAdapter(getApplicationContext(), mDayList);
+        mListView.setAdapter(mAdapter);
 
     }
 
@@ -92,17 +94,25 @@ public class DayDetailsActivity extends AppCompatActivity {
                     Log.d("FAILED", "Response from API call return NULL");
                     Toast.makeText(getApplicationContext(), "An error occured while getting weather data...", Toast.LENGTH_SHORT).show();
                 } else {
-                    mDescription.setText(s.getList().get(0).getWeathers().get(0).getDescription());
-                    mTemp.setText(String.valueOf(s.getList().get(0).getMain().getTemp()));
-                    mTempInterval.setText(" Temp Min-Max"+String.valueOf(s.getList().get(0).getMain().getTemp_max()) + String.valueOf(s.getList().get(0).getMain().getTemp_min()));
+
+                    //BUG always getting the same element
+                    Intent myIntent = getIntent();
+                    int position = myIntent.getIntExtra("position", 0);
+                    mDescription.setText(s.getList().get(position).getWeathers().get(0).getDescription());
+                    mTemp.setText("Température  : "+ String.valueOf(s.getList().get(position).getMain().getTemp()) + "°C");
+                    mTempInterval.setText("Min-Max  : "+ String.valueOf((int)s.getList().get(position).getMain().getTemp_min()) + " - " + String.valueOf((int)s.getList().get(0).getMain().getTemp_max()) + "°C");
 //                    mWindOrientation;
-                    mWindSpeed.setText(String.valueOf(s.getList().get(0).getWind().getSpeed()));
-                    mPressure.setText(String.valueOf(s.getList().get(0).getMain().getPressure()));
-                    mHumidity.setText(String.valueOf(s.getList().get(0).getMain().getHumidity()));
-                    new DownloadImageTask(iconView).execute(Constants.URL_ICON + s.getList().get(0).getWeathers().get(0).getIcon());
+                    mWindSpeed.setText( "Vitesse vent  : "+ String.valueOf(s.getList().get(position).getWind().getSpeed()) + "km/h");
+                    mPressure.setText( "Pression  : "+ String.valueOf((int)s.getList().get(position).getMain().getPressure()) + " hPa");
+                    mHumidity.setText( "Humidité  : "+ String.valueOf(s.getList().get(position).getMain().getHumidity()) + " %");
+                    new DownloadImageTask(iconView).execute(Constants.URL_ICON2 + s.getList().get(position).getWeathers().get(0).getIcon() + "@2x.png");
 
                     for (ListCommon lw : s.getList()) {
                         ListCommon copy = createOwnList(lw);
+
+                        Log.d("INFO", "RES : " + copy.getDtTxt());
+                        Log.d("INFO", "RES : " + copy.getWeathers().get(0).getDescription());
+
                         mDayList.add(copy);
                         mAdapter.notifyDataSetChanged();
                     }
@@ -120,7 +130,6 @@ public class DayDetailsActivity extends AppCompatActivity {
         double temperature = lw.getMain().getTemp();
         String icon = lw.getWeathers().get(0).getIcon();
         String description = lw.getWeathers().get(0).getDescription();
-        String mainWeather = lw.getWeathers().get(0).getMain();
         Double windSpeed = (double) Math.round(lw.getWind().getSpeed() * 3.6);
         Double windOrientation = lw.getWind().getDeg();
 
@@ -139,6 +148,7 @@ public class DayDetailsActivity extends AppCompatActivity {
         List<Weather> ll = new ArrayList<>();
         ll.add(w);
         l.setWeathers(ll);
+        l.setDtTxt(lw.getDtTxt());
         return l;
     }
 

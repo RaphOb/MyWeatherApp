@@ -2,6 +2,7 @@ package com.example.myweatherapp.others;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,29 +67,31 @@ public class ListDaydetailsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int position, View view, ViewGroup viewGroup) {
         if( view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.day_row, null);
+            Log.d("INFO", "IN");
+            view = LayoutInflater.from(context).inflate(R.layout.day_row_details, null);
         }
+        Log.d("INFO", "OUT");
 
-        if (i == 0) {
+        if (position == 0) {
             view.setBackgroundColor(Color.parseColor("#87CEFA"));
         }
 
-        ListCommon day = dayDetails.get(i);
+        ListCommon day_now = dayDetails.get(position);
 
-        TextView temperature = view.findViewById(R.id.day_row_temperature);
+        TextView temperature = view.findViewById(R.id.day_row_details_temperature);
         //TextView description = view.findViewById(R.id.day_row_description);
-        TextView wind_speed = view.findViewById(R.id.day_row_wind);
-        //TextView humidity = view.findViewById(R.id.day_row_humidity);
+        TextView wind_speed = view.findViewById(R.id.day_row_details_wind);
+        TextView humidity = view.findViewById(R.id.day_row_details_humidity);
         ImageView imageView =  view.findViewById(R.id.imageView);
 
         //SET VISUAL ELEMENTS
-        temperature.setText(String.valueOf((int)day.getMain().getTemp()) + "°C");
+        temperature.setText(String.valueOf((int)day_now.getMain().getTemp()) + "°C");
         //description.setText(String.valueOf(day.getWeathers().get(0).getDescription()));
-        wind_speed.setText(String.valueOf((int)day.getWind().getSpeed()) + "km/h");
-        //humidity.setText(String.valueOf(day.getMain().getHumidity()) + "%");
-        String url = Constants.URL_ICON + day.getWeathers().get(0).getIcon();
+        wind_speed.setText(String.valueOf((int)day_now.getWind().getSpeed()) + "km/h");
+        humidity.setText(String.valueOf(day_now.getMain().getHumidity()) + "%");
+        String url = Constants.URL_ICON + day_now.getWeathers().get(0).getIcon();
         new DownloadImageTask(imageView).execute(url);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 110));

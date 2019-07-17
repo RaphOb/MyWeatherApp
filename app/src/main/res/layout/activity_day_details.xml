@@ -2,35 +2,47 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#dcf9ff">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="277dp">
+        android:id="@+id/top_left"
+        android:layout_width="156dp"
+        android:layout_height="303dp">
 
         <ImageView
             android:id="@+id/state"
-            android:layout_width="204dp"
-            android:layout_height="222dp"
-            android:src="@drawable/rain" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignEnd="@+id/top_left" />
 
         <TextView
             android:id="@+id/place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_above="@id/state"
-            android:text=""
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:textStyle="bold"
+            android:text="VILLE"
             android:textSize="15sp" />
+
+    </FrameLayout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/top_right"
+        android:layout_width="201dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_toEndOf="@+id/top_left">
+
 
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="left"
+            android:layout_marginTop="40dp"
             android:text="INFO1"
             android:textSize="15sp" />
 
@@ -38,44 +50,44 @@
             android:id="@+id/day_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="40dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="80dp"
             android:text="INFO2"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/day_interval_temperature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="160dp"
-            android:text="INFO5"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/day_wind_direction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="80dp"
-            android:text="INFO3"
+            android:layout_gravity="left"
+            android:layout_marginTop="120dp"
+            android:text="Wind direction"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/day_wind_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="120dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="160dp"
             android:text="INFO4"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/day_interval_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="200dp"
+            android:text="INFO5"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/day_pression"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="200dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="240dp"
             android:text="INFO6"
             android:textSize="15sp" />
 
@@ -83,8 +95,8 @@
             android:id="@+id/day_humidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="240dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="280dp"
             android:text="INFO7"
             android:textSize="15sp" />
     </FrameLayout>
@@ -92,8 +104,9 @@
     <ListView
         android:id="@+id/day_3hours_forecast"
         android:layout_width="match_parent"
-        android:layout_height="302dp"
-        android:layout_alignTop="@+id/top"
-        android:layout_marginTop="319dp"></ListView>
+        android:layout_height="285dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="301dp"
+        android:layout_marginBottom="145dp"></ListView>
 
 </RelativeLayout>

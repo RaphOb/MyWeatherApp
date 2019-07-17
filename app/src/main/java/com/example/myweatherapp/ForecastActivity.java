@@ -180,9 +180,7 @@ public class ForecastActivity extends AppCompatActivity {
         Double windSpeed = (double) Math.round(lw.getWind().getSpeed() * 3.6);
         Double windOrientation = lw.getWind().getDeg();
         Double humidity = lw.getMain().getHumidity();
-        Log.d("wind SPeed", String.valueOf(lw.getWind().getSpeed()));
 
-        Log.d("WEATHER", mainWeather);
         //Set image from mainWeather only for the most recent forecast
         if (done == 0)
             manageImageFromWeather(mainWeather);
@@ -190,7 +188,6 @@ public class ForecastActivity extends AppCompatActivity {
         //Insert these data in a new list
         ListCommon l = new ListCommon();
         Main m = new Main();
-        m.setHumidity(humidity); //Pas besoin de l'afficher dans le listView, on l'affichera quand on cliquera sur la liste view pour plus de precisions.
         m.setTemp(temperature);
         l.setMain(m);
         Weather w = new Weather();
@@ -204,6 +201,7 @@ public class ForecastActivity extends AppCompatActivity {
         List<Weather> ll = new ArrayList<>();
         ll.add(w);
         l.setWeathers(ll);
+        l.setDtTxt(lw.getDtTxt());
         return l;
     }
 

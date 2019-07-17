@@ -2,6 +2,7 @@ package com.example.myweatherapp.others;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,42 +73,38 @@ public class ListForecastAdapter extends BaseAdapter {
         {
             view = LayoutInflater.from(context).inflate(R.layout.day_row, null);
         }
-        //Set backgroundColor for the currentDay
-        if (position == 0)
-            view.setBackgroundColor(Color.parseColor("#87CEFA"));
 
         //Get current day
         ListCommon day = forecast.get(position);
 
         //DEFINE VISUAL ELEMENTS
         TextView temperature = view.findViewById(R.id.day_row_temperature);
-        //TextView description = view.findViewById(R.id.day_row_description);
         TextView current_day = view.findViewById(R.id.day_row_current_day);
-        TextView wind_speed = view.findViewById(R.id.day_row_wind);
-        //TextView humidity = view.findViewById(R.id.day_row_humidity);
         ImageView imageView =  view.findViewById(R.id.imageView);
 
         //SET VISUAL ELEMENTS
         temperature.setText(String.valueOf((int)day.getMain().getTemp()) + "°C");
-        //description.setText(String.valueOf(day.getWeathers().get(0).getDescription()));
-        wind_speed.setText(String.valueOf((int)day.getWind().getSpeed()) + "km/h");
-        //humidity.setText(String.valueOf(day.getMain().getHumidity()) + "%");
+        //Set backgroundColor and font style for the currentDay
+        if (position == 0) {
+            view.setBackgroundColor(Color.parseColor("#87CEFA"));
+            current_day.setTypeface(null, Typeface.BOLD);
+        }
 
         String currentDay = getDayForList(position);
         //If February
         if (getCurrentMonth() == 2)
         {
-            mDate = currentDay + " " + String.valueOf((getCurrentMonthDay() + position) % 28);
+            mDate = currentDay;
         }
         else if(getCurrentMonth() % 2 == 0) {
-            mDate = currentDay + " " + String.valueOf((getCurrentMonthDay() + position) % 31);
+            mDate = currentDay;
         }
         else{
-            mDate = currentDay + " " + String.valueOf((getCurrentMonthDay() + position) % 30);
+            mDate = currentDay;
 
         }
         //Set the date
-        current_day.setText(mDate);
+        current_day.setText(mDate + "\n" + day.getDtTxt());
         //Downloads icon
         String url = Constants.URL_ICON + day.getWeathers().get(0).getIcon();
         new DownloadImageTask(imageView).execute(url);
@@ -125,12 +122,6 @@ public class ListForecastAdapter extends BaseAdapter {
         return calendar.get(Calendar.DAY_OF_WEEK);
     }
 
-    public int getCurrentMonthDay()
-    {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.DAY_OF_MONTH);
-    }
-
     public int getCurrentMonth()
     {
         Calendar calendar = Calendar.getInstance();
@@ -141,19 +132,19 @@ public class ListForecastAdapter extends BaseAdapter {
     {
         switch (currentDay) {
             case Calendar.MONDAY:
-                return "Monday";
+                return "Lundi";
             case Calendar.TUESDAY:
-                return "Tuesday";
+                return "Mardi";
             case Calendar.WEDNESDAY:
-                return "Wednesday";
+                return "Mercredi";
             case Calendar.THURSDAY:
-                return "Thursday";
+                return "Jeudi";
             case Calendar.FRIDAY:
-                return "Friday";
+                return "Vendredi";
             case Calendar.SATURDAY:
-                return "Saturday";
+                return "Samedi";
             case Calendar.SUNDAY:
-                return "Sunday";
+                return "Dimanche";
             default:
                 Log.d("INFO", String.valueOf(currentDay));
                 return String.valueOf(currentDay);
