@@ -133,6 +133,7 @@ public class ForecastActivity extends AppCompatActivity {
                         ListCommon copy = createOwnList(lw, done);
                         done = 1;
                         mForecastList.add(copy);
+
                         mAdapter.notifyDataSetChanged();
                     }
 
@@ -206,7 +207,7 @@ public class ForecastActivity extends AppCompatActivity {
     }
 
     //Set image according to most recent forecast Weather
-    public void manageImageFromWeather(String mainWeather) {
+    public  void manageImageFromWeather(String mainWeather) {
         Intent myIntent = getIntent();
         if (mainWeather.equals("Clouds")) {
             currentWeatherView.setImageResource(R.drawable.couvert);
@@ -229,22 +230,6 @@ public class ForecastActivity extends AppCompatActivity {
         {
             currentWeatherView.setImageResource(R.drawable.couvert);
         }*/
-    }
-
-    public Integer GetWindOrientation(double value) {
-        RangeMap<Integer, Integer> WindDirection = TreeRangeMap.create();
-        WindDirection.put(Range.closed(340, 360), R.drawable.nwind);
-        WindDirection.put(Range.closed(0, 15), R.drawable.nwind);
-        WindDirection.put(Range.closed(16, 80), R.drawable.newind);
-        WindDirection.put(Range.closed(81, 110), R.drawable.ewind);
-        WindDirection.put(Range.closed(111, 160), R.drawable.sewind);
-        WindDirection.put(Range.closed(161, 200), R.drawable.swind);
-        WindDirection.put(Range.closed(201, 250), R.drawable.sowind);
-        WindDirection.put(Range.closed(251, 300), R.drawable.owind);
-        WindDirection.put(Range.closed(301, 339), R.drawable.nowind);
-        Integer deg = (int) value;
-
-        return WindDirection.get((deg));
     }
 
     /*private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

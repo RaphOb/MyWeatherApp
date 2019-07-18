@@ -3,8 +3,6 @@ package com.example.myweatherapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,8 +17,8 @@ import com.example.myweatherapp.model.common.Wind;
 import com.example.myweatherapp.model.searchData.SearchWeatherData;
 import com.example.myweatherapp.others.Constants;
 import com.example.myweatherapp.others.DownloadImageTask;
+import com.example.myweatherapp.service.ToolService;
 import com.example.myweatherapp.others.ListDaydetailsAdapter;
-import com.example.myweatherapp.others.ListForecastAdapter;
 import com.example.myweatherapp.service.RetrofitConfig;
 
 import java.util.ArrayList;
@@ -70,11 +68,11 @@ public class DayDetailsActivity extends AppCompatActivity {
         mDayList = new ArrayList<>();
         getDayDetails();
 
-        Intent myIntent = getIntent();
-        mPlace.setText(myIntent.getStringExtra("City") + " " + myIntent.getStringExtra("Country"));
-
         mAdapter = new ListDaydetailsAdapter(getApplicationContext(), mDayList);
         mListView.setAdapter(mAdapter);
+        Log.d("COUNT >>>>>>",String.valueOf(mAdapter.getCount()));
+        Intent myIntent = getIntent();
+        mPlace.setText(myIntent.getStringExtra("City") + " " + myIntent.getStringExtra("Country"));
 
     }
 
@@ -83,7 +81,9 @@ public class DayDetailsActivity extends AppCompatActivity {
                 getIntent().getIntExtra("id", 0),
                 Constants.LANG,
                 Constants.UNITS,
-                Constants.APPID
+                Constants.APPID,
+                5
+
 
         ).enqueue(new Callback<SearchWeatherData>() {
             @Override
@@ -101,7 +101,7 @@ public class DayDetailsActivity extends AppCompatActivity {
                     mDescription.setText(s.getList().get(position).getWeathers().get(0).getDescription());
                     mTemp.setText("Température  : "+ String.valueOf(s.getList().get(position).getMain().getTemp()) + "°C");
                     mTempInterval.setText("Min-Max  : "+ String.valueOf((int)s.getList().get(position).getMain().getTemp_min()) + " - " + String.valueOf((int)s.getList().get(0).getMain().getTemp_max()) + "°C");
-//                    mWindOrientation;
+                    mWindOrientation.setText(ToolService.getImageOrientation(s.getList().get(position).getWind().getDeg()));
                     mWindSpeed.setText( "Vitesse vent  : "+ String.valueOf(s.getList().get(position).getWind().getSpeed()) + "km/h");
                     mPressure.setText( "Pression  : "+ String.valueOf((int)s.getList().get(position).getMain().getPressure()) + " hPa");
                     mHumidity.setText( "Humidité  : "+ String.valueOf(s.getList().get(position).getMain().getHumidity()) + " %");
@@ -109,9 +109,6 @@ public class DayDetailsActivity extends AppCompatActivity {
 
                     for (ListCommon lw : s.getList()) {
                         ListCommon copy = createOwnList(lw);
-
-                        Log.d("INFO", "RES : " + copy.getDtTxt());
-                        Log.d("INFO", "RES : " + copy.getWeathers().get(0).getDescription());
 
                         mDayList.add(copy);
                         mAdapter.notifyDataSetChanged();
@@ -132,6 +129,7 @@ public class DayDetailsActivity extends AppCompatActivity {
         String description = lw.getWeathers().get(0).getDescription();
         Double windSpeed = (double) Math.round(lw.getWind().getSpeed() * 3.6);
         Double windOrientation = lw.getWind().getDeg();
+        String hour = lw.getDtTxt().substring(lw.getDtTxt().length()-8).substring(0,5);
 
         ListCommon l = new ListCommon();
         Main m = new Main();
@@ -148,7 +146,7 @@ public class DayDetailsActivity extends AppCompatActivity {
         List<Weather> ll = new ArrayList<>();
         ll.add(w);
         l.setWeathers(ll);
-        l.setDtTxt(lw.getDtTxt());
+        l.setDtTxt(hour);
         return l;
     }
 
