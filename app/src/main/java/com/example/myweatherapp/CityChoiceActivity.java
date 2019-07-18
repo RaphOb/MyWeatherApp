@@ -77,7 +77,8 @@ public class CityChoiceActivity extends AppCompatActivity {
         mSearchButton.setEnabled(false);
         //Deserialize the list of city file
         try {
-            City();
+            if (mCityLists == null)
+                City();
         } catch (IOException e) {
             e.printStackTrace();
         }
