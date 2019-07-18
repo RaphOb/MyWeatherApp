@@ -1,5 +1,6 @@
 package com.example.myweatherapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -62,6 +63,11 @@ public class CityChoiceActivity extends AppCompatActivity {
 
     /*----------Activity Usage--------*/
 
+    public List<CityList> getCityList()
+    {
+        return this.mCityLists;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +84,7 @@ public class CityChoiceActivity extends AppCompatActivity {
         //Deserialize the list of city file
         try {
             if (mCityLists == null)
-                City();
+                City(getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -183,12 +189,12 @@ public class CityChoiceActivity extends AppCompatActivity {
     }
 
     // Deserialize json with all world's city for auto-completion
-    public void City() throws IOException {
+    public static void City(Context context) throws IOException {
         com.fasterxml.jackson.databind.ObjectMapper mapper = new ObjectMapper();
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
         TypeReference<List<CityList>> typeReferenceCity = new TypeReference<List<CityList>>() {
         };
-        AssetManager manager = getApplicationContext().getAssets();
+        AssetManager manager = context.getAssets();
         InputStream inputStreamCity = manager.open("city.list.json");
         try {
             mCityLists = mapper.readValue(inputStreamCity, typeReferenceCity);
