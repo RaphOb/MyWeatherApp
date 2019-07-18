@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
-        android:layout_height="232dp"
+        android:layout_height="201dp"
         android:src="@drawable/sun" />
 
     <!--<TextView
@@ -26,13 +26,12 @@
 
     <TextView
         android:id="@+id/activity_city_choice_greeting_txt"
-        android:layout_width="match_parent"
+        android:layout_width="338dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_margin="10dp"
+        android:gravity="center"
         android:padding="10dp"
-        android:text="Welcome on Weather Time\nPlease choose city location">
-    </TextView>
+        android:text="Welcome on Weather Time\nPlease choose city location"></TextView>
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
@@ -64,8 +63,8 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="63dp"
+        android:layout_weight="1" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"

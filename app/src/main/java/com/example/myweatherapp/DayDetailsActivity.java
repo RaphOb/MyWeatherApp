@@ -3,11 +3,13 @@ package com.example.myweatherapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myweatherapp.model.common.ListCommon;
@@ -20,6 +22,7 @@ import com.example.myweatherapp.others.DownloadImageTask;
 import com.example.myweatherapp.service.ToolService;
 import com.example.myweatherapp.others.ListDaydetailsAdapter;
 import com.example.myweatherapp.service.RetrofitConfig;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +46,7 @@ public class DayDetailsActivity extends AppCompatActivity {
     private List<ListCommon> mDayList;
     private ListDaydetailsAdapter mAdapter;
     private ListView mListView;
+    private BottomNavigationView mNavigationView;
 
 
     //Retrofit instance
@@ -71,6 +75,8 @@ public class DayDetailsActivity extends AppCompatActivity {
         Intent myIntent = getIntent();
         mPlace.setText(myIntent.getStringExtra("City") + " " + myIntent.getStringExtra("Country"));
 
+        mNavigationView = findViewById(R.id.bottom_navigation_view);
+        mNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     public void getDayDetails() {
@@ -144,6 +150,28 @@ public class DayDetailsActivity extends AppCompatActivity {
         l.setDtTxt(hour);
         return l;
     }
+
+    //Define interface and its method to listen navbar
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_gps:
+                    /*Intent intent = new Intent(DayDetailsActivity.this, LocGPSActivity.class);
+                    startActivity(intent);*/
+                case R.id.navigation_search:
+                    Intent intent = new Intent(DayDetailsActivity.this, CityChoiceActivity.class);
+                    startActivity(intent);
+                    return true;
+                case R.id.navigation_fav:
+                    /*Intent intent = new Intent(DayDetailsActivity.this, FavorisActivity.class);
+                    startActivity(intent);*/
+            }
+            return false;
+        }
+    };
 
 
 }

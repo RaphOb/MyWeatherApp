@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myweatherapp.model.common.CityList;
@@ -24,6 +26,7 @@ import com.example.myweatherapp.service.RetrofitConfig;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +44,7 @@ public class CityChoiceActivity extends AppCompatActivity {
     private AutoCompleteTextView mLocatedCity;
     private TextView mConfirm;
     private Button mSearchButton;
-
+    private BottomNavigationView mNavigationView;
 
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
@@ -68,6 +71,8 @@ public class CityChoiceActivity extends AppCompatActivity {
         mSearchButton = findViewById(R.id.activity_city_choice_search_btn);
         mConfirm = findViewById(R.id.activity_city_choice_confirm_txt);
         mLocatedCity = findViewById(R.id.autoCompleteTextView);
+        mNavigationView = findViewById(R.id.bottom_navigation_view);
+        mNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //Set GPS
         LocationGPS locationGPS = new LocationGPS(this);
@@ -197,4 +202,27 @@ public class CityChoiceActivity extends AppCompatActivity {
             Log.d("ERREUR", "Impossible de charger le fichier");
         }
     }
+
+
+    //Define interface and its method to listen navbar
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_gps:
+                    /*Intent intent = new Intent(CityChoiceActivity.this, LocGPSActivity.class);
+                    startActivity(intent);*/
+                case R.id.navigation_search:
+                    Intent intent = new Intent(CityChoiceActivity.this, CityChoiceActivity.class);
+                    startActivity(intent);
+                case R.id.navigation_fav:
+                    /*Intent intent = new Intent(CityChoiceActivity.this, FavorisActivity.class);
+                    startActivity(intent);*/
+            }
+            return true;
+        }
+    };
+
 }

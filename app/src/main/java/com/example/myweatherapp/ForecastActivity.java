@@ -48,6 +48,7 @@ public class ForecastActivity extends AppCompatActivity {
     private List<ListCommon> mForecastList;
     private ListView mListView;
     private ListForecastAdapter mAdapter;
+    private BottomNavigationView mNavigationView;
 
     private TextView mTextMessage;
 
@@ -64,6 +65,10 @@ public class ForecastActivity extends AppCompatActivity {
         currentWeatherDescr = findViewById(R.id.description);
         //Init the listView
         mListView = findViewById(R.id.activity_forecasts);
+
+        mNavigationView = findViewById(R.id.bottom_navigation_view);
+        mNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         //Init the list for datas
         mForecastList = new ArrayList<>();
         //Build mForecastList with weather Data
@@ -232,22 +237,26 @@ public class ForecastActivity extends AppCompatActivity {
         }*/
     }
 
-    /*private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    //Define interface and its method to listen navbar
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_gps:
-                    mTextMessage.setText(R.string.title_gps);
+                    /*Intent intent = new Intent(ForecastActivity.this, LocGPSActivity.class);
+                    startActivity(intent);*/
                 case R.id.navigation_search:
-                    mTextMessage.setText(R.string.title_search);
+                    Intent intent = new Intent(ForecastActivity.this, CityChoiceActivity.class);
+                    startActivity(intent);
                     return true;
                 case R.id.navigation_fav:
-                    mTextMessage.setText(R.string.title_fav);
+                    /*Intent intent = new Intent(ForecastActivity.this, FavorisActivity.class);
+                    startActivity(intent);*/
             }
             return false;
         }
-    };*/
+    };
 
 }

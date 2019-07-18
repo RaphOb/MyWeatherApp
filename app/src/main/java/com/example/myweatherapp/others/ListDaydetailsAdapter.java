@@ -72,9 +72,10 @@ public class ListDaydetailsAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.day_row_details, null);
         }
 
+        //BUG => MULTIPLE POSITION 0
         if (position == 0) {
             Log.d("INFO", "POS : " + position);
-            //view.setBackgroundColor(Color.parseColor("#87CEFA"));
+            view.setBackgroundColor(Color.parseColor("#87CEFA"));
         }
 
         ListCommon day_now = dayDetails.get(position);
