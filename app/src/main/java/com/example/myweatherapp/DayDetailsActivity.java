@@ -80,8 +80,10 @@ public class DayDetailsActivity extends AppCompatActivity {
     }
 
     public void getDayDetails() {
-        retrofitConfig.getApiWeather().getDayDetails(
+        retrofitConfig.getApiWeather().getForecast(null,
                 getIntent().getIntExtra("id", 0),
+                null,
+                null,
                 Constants.LANG,
                 Constants.UNITS,
                 Constants.APPID,
@@ -102,7 +104,7 @@ public class DayDetailsActivity extends AppCompatActivity {
                     mTemp.setText("Température  : "+ String.valueOf(s.getList().get(position).getMain().getTemp()) + "°C");
                     mTempInterval.setText("Min-Max  : "+ String.valueOf((int)s.getList().get(position).getMain().getTemp_min()) + " - " + String.valueOf((int)s.getList().get(0).getMain().getTemp_max()) + "°C");
                     mWindOrientation.setText(ToolService.getImageOrientation(s.getList().get(position).getWind().getDeg()));
-                    mWindSpeed.setText( "Vitesse vent  : "+ String.valueOf(s.getList().get(position).getWind().getSpeed()* 3.6) + "km/h");
+                    mWindSpeed.setText( "Vitesse vent  : "+ String.valueOf((int)s.getList().get(position).getWind().getSpeed()* 3.6) + "km/h");
                     mPressure.setText( "Pression  : "+ String.valueOf((int)s.getList().get(position).getMain().getPressure()) + " hPa");
                     new DownloadImageTask(iconView).execute(Constants.URL_ICON2 + s.getList().get(position).getWeathers().get(0).getIcon() + "@2x.png");
 

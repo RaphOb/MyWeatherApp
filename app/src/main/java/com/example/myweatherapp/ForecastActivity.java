@@ -116,9 +116,13 @@ public class ForecastActivity extends AppCompatActivity {
     public void getForecast() {
         retrofitConfig.getApiWeather().getForecast(
                 getIntent().getStringExtra("City"),
+                null,
+                null,
+                null,
                 Constants.LANG,
                 Constants.UNITS,
-                Constants.APPID
+                Constants.APPID,
+                null
         ).enqueue(new Callback<SearchWeatherData>() {
             @SuppressLint("SetTextI18n")
             @Override
