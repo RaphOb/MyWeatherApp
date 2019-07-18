@@ -37,7 +37,6 @@ public class DayDetailsActivity extends AppCompatActivity {
     private TextView mWindSpeed;
     private TextView mWindOrientation;
     private TextView mPressure;
-    private TextView mHumidity;
     private TextView mRain;
     private TextView mDescription;
     private TextView mIcon;
@@ -63,14 +62,12 @@ public class DayDetailsActivity extends AppCompatActivity {
         mWindOrientation = findViewById(R.id.day_wind_direction);
         mWindSpeed = findViewById(R.id.day_wind_speed);
         mPressure = findViewById(R.id.day_pression);
-        mHumidity = findViewById(R.id.day_humidity);
         mListView = findViewById(R.id.day_3hours_forecast);
         mDayList = new ArrayList<>();
         getDayDetails();
 
         mAdapter = new ListDaydetailsAdapter(getApplicationContext(), mDayList);
         mListView.setAdapter(mAdapter);
-        Log.d("COUNT >>>>>>",String.valueOf(mAdapter.getCount()));
         Intent myIntent = getIntent();
         mPlace.setText(myIntent.getStringExtra("City") + " " + myIntent.getStringExtra("Country"));
 
@@ -83,8 +80,6 @@ public class DayDetailsActivity extends AppCompatActivity {
                 Constants.UNITS,
                 Constants.APPID,
                 5
-
-
         ).enqueue(new Callback<SearchWeatherData>() {
             @Override
             public void onResponse(Call<SearchWeatherData> call, Response<SearchWeatherData> response) {
@@ -95,16 +90,14 @@ public class DayDetailsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "An error occured while getting weather data...", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    //BUG always getting the same element
                     Intent myIntent = getIntent();
                     int position = myIntent.getIntExtra("position", 0);
                     mDescription.setText(s.getList().get(position).getWeathers().get(0).getDescription());
                     mTemp.setText("Température  : "+ String.valueOf(s.getList().get(position).getMain().getTemp()) + "°C");
                     mTempInterval.setText("Min-Max  : "+ String.valueOf((int)s.getList().get(position).getMain().getTemp_min()) + " - " + String.valueOf((int)s.getList().get(0).getMain().getTemp_max()) + "°C");
                     mWindOrientation.setText(ToolService.getImageOrientation(s.getList().get(position).getWind().getDeg()));
-                    mWindSpeed.setText( "Vitesse vent  : "+ String.valueOf(s.getList().get(position).getWind().getSpeed()) + "km/h");
+                    mWindSpeed.setText( "Vitesse vent  : "+ String.valueOf(s.getList().get(position).getWind().getSpeed()* 3.6) + "km/h");
                     mPressure.setText( "Pression  : "+ String.valueOf((int)s.getList().get(position).getMain().getPressure()) + " hPa");
-                    mHumidity.setText( "Humidité  : "+ String.valueOf(s.getList().get(position).getMain().getHumidity()) + " %");
                     new DownloadImageTask(iconView).execute(Constants.URL_ICON2 + s.getList().get(position).getWeathers().get(0).getIcon() + "@2x.png");
 
                     for (ListCommon lw : s.getList()) {
@@ -127,6 +120,7 @@ public class DayDetailsActivity extends AppCompatActivity {
         double temperature = lw.getMain().getTemp();
         String icon = lw.getWeathers().get(0).getIcon();
         String description = lw.getWeathers().get(0).getDescription();
+        Double humidity = lw.getMain().getHumidity();
         Double windSpeed = (double) Math.round(lw.getWind().getSpeed() * 3.6);
         Double windOrientation = lw.getWind().getDeg();
         String hour = lw.getDtTxt().substring(lw.getDtTxt().length()-8).substring(0,5);
@@ -134,6 +128,7 @@ public class DayDetailsActivity extends AppCompatActivity {
         ListCommon l = new ListCommon();
         Main m = new Main();
         m.setTemp(temperature);
+        m.setHumidity(humidity);
         l.setMain(m);
         Weather w = new Weather();
         w.setIcon(icon);

@@ -57,13 +57,13 @@ public class ListDaydetailsAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public Object getItem(int pos) {
+        return dayDetails.get(pos);
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
+    public long getItemId(int pos) {
+        return pos;
     }
 
     @Override
@@ -73,7 +73,8 @@ public class ListDaydetailsAdapter extends BaseAdapter {
         }
 
         if (position == 0) {
-            view.setBackgroundColor(Color.parseColor("#87CEFA"));
+            Log.d("INFO", "POS : " + position);
+            //view.setBackgroundColor(Color.parseColor("#87CEFA"));
         }
 
         ListCommon day_now = dayDetails.get(position);

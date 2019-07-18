@@ -143,14 +143,15 @@ public class ListForecastAdapter extends BaseAdapter {
     public String getDayForList(int position)
     {
         //Set days
-        int numDay = (getCurrentDay() + position) % 8;
+        int numDay = (getCurrentDay() + position) % 7;
         Log.d("INFO", "NUMERO DE JOUR " + getCurrentDay());
         Log.d("INFO", "POSITION COURANTE" + position);
         Log.d("INFO", "Calcul : " + getCurrentDay() + " " + position);
 
         //0 isn't a valid number for a day (start at 1)
         if (numDay == 0)
-            numDay = 1;
+            numDay = 7;
+            position++;
 
         Log.d("INFO", "Jour calculé " + numDay);
         return convertIntToDay(numDay);

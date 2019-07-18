@@ -91,22 +91,33 @@
             android:text="INFO6"
             android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/day_humidity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginTop="280dp"
-            android:text="INFO7"
-            android:textSize="15sp" />
     </FrameLayout>
 
     <ListView
         android:id="@+id/day_3hours_forecast"
         android:layout_width="match_parent"
-        android:layout_height="285dp"
+        android:layout_height="216dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="301dp"
-        android:layout_marginBottom="145dp"></ListView>
+        android:layout_marginBottom="123dp">
+
+    </ListView>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/day_3hours_forecast"
+        android:layout_marginBottom="-53dp"
+        android:layout_weight="1" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_alignBottom="@+id/view_pager"
+        android:layout_marginBottom="-70dp"
+        android:background="#9CD4E5"
+        app:menu="@menu/bottom_nav_menu" />
 
 </RelativeLayout>
