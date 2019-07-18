@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">MyWeatherApp</string>
+    <string name="app_name">WeatherApp</string>
     <string name="title_gps">GPS</string>
     <string name="title_search">Recherche</string>
     <string name="title_fav">Favoris</string>
-    <string name="title_activity_forecast">ForecastActivity</string>
+    <string name="title_activity_forecast">5 day forecast</string>
+    <string name="title_activity_details">Day details</string>
+    <string name="title_activity_gps">Location GPS</string>
+    <string name="title_activity_favourite">Favourite</string>
 </resources>

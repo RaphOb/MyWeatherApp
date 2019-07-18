@@ -245,15 +245,17 @@ public class ForecastActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_gps:
-                    /*Intent intent = new Intent(ForecastActivity.this, LocGPSActivity.class);
-                    startActivity(intent);*/
-                case R.id.navigation_search:
-                    Intent intent = new Intent(ForecastActivity.this, CityChoiceActivity.class);
+                    Intent intent = new Intent(ForecastActivity.this, LocGPSActivity.class);
                     startActivity(intent);
-                    return true;
+                    break;
+                case R.id.navigation_search:
+                    intent = new Intent(ForecastActivity.this, CityChoiceActivity.class);
+                    startActivity(intent);
+                    break;
                 case R.id.navigation_fav:
-                    /*Intent intent = new Intent(ForecastActivity.this, FavorisActivity.class);
+                    /*intent = new Intent(ForecastActivity.this, FavouriteActivity.class);
                     startActivity(intent);*/
+                    break;
             }
             return false;
         }

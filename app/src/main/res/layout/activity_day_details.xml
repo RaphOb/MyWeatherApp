@@ -96,19 +96,19 @@
     <ListView
         android:id="@+id/day_3hours_forecast"
         android:layout_width="match_parent"
-        android:layout_height="216dp"
+        android:layout_height="261dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="301dp"
-        android:layout_marginBottom="123dp">
+        android:layout_marginBottom="78dp">
 
     </ListView>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="569dp"
         android:layout_alignBottom="@+id/day_3hours_forecast"
-        android:layout_marginBottom="-53dp"
+        android:layout_marginBottom="-7dp"
         android:layout_weight="1" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

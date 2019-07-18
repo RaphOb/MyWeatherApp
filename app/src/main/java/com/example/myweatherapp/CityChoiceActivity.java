@@ -74,12 +74,6 @@ public class CityChoiceActivity extends AppCompatActivity {
         mNavigationView = findViewById(R.id.bottom_navigation_view);
         mNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        //Set GPS
-        LocationGPS locationGPS = new LocationGPS(this);
-        locationGPS.refreshLocation();
-        Log.d("LOC", String.valueOf(locationGPS.getLatitude()));
-        Log.d("LOC", String.valueOf(locationGPS.getLongitude()));
-
         mSearchButton.setEnabled(false);
         //Deserialize the list of city file
         try {
@@ -212,14 +206,18 @@ public class CityChoiceActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_gps:
-                    /*Intent intent = new Intent(CityChoiceActivity.this, LocGPSActivity.class);
-                    startActivity(intent);*/
-                case R.id.navigation_search:
-                    Intent intent = new Intent(CityChoiceActivity.this, CityChoiceActivity.class);
+                    Log.d("INFO", "End");
+                    Intent intent = new Intent(CityChoiceActivity.this, LocGPSActivity.class);
                     startActivity(intent);
+                    break;
+                case R.id.navigation_search:
+                    intent = new Intent(CityChoiceActivity.this, CityChoiceActivity.class);
+                    startActivity(intent);
+                    break;
                 case R.id.navigation_fav:
-                    /*Intent intent = new Intent(CityChoiceActivity.this, FavorisActivity.class);
+                    /*intent = new Intent(CityChoiceActivity.this, FavouriteActivity.class);
                     startActivity(intent);*/
+                    break;
             }
             return true;
         }

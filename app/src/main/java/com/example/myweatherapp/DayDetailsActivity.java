@@ -159,15 +159,17 @@ public class DayDetailsActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_gps:
-                    /*Intent intent = new Intent(DayDetailsActivity.this, LocGPSActivity.class);
-                    startActivity(intent);*/
-                case R.id.navigation_search:
-                    Intent intent = new Intent(DayDetailsActivity.this, CityChoiceActivity.class);
+                    Intent intent = new Intent(DayDetailsActivity.this, LocGPSActivity.class);
                     startActivity(intent);
-                    return true;
+                    break;
+                case R.id.navigation_search:
+                    intent = new Intent(DayDetailsActivity.this, CityChoiceActivity.class);
+                    startActivity(intent);
+                    break;
                 case R.id.navigation_fav:
-                    /*Intent intent = new Intent(DayDetailsActivity.this, FavorisActivity.class);
+                    /*intent = new Intent(DayDetailsActivity.this, FavouriteActivity.class);
                     startActivity(intent);*/
+                    break;
             }
             return false;
         }
