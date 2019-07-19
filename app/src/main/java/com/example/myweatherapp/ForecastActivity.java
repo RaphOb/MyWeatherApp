@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.myweatherapp.model.common.CityFav;
 import com.example.myweatherapp.model.common.ListCommon;
 import com.example.myweatherapp.model.common.Wind;
+import com.example.myweatherapp.model.dao.MyAppDataBase;
 import com.example.myweatherapp.others.ListForecastAdapter;
 import com.example.myweatherapp.model.common.Main;
 import com.example.myweatherapp.model.common.Weather;
@@ -13,12 +15,14 @@ import com.example.myweatherapp.model.searchData.SearchWeatherData;
 import com.example.myweatherapp.others.Constants;
 import com.example.myweatherapp.service.RetrofitConfig;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.util.Log;
 import android.view.MenuItem;
@@ -49,6 +53,8 @@ public class ForecastActivity extends AppCompatActivity {
     private ListView mListView;
     private ListForecastAdapter mAdapter;
     private BottomNavigationView mNavigationView;
+    private FloatingActionButton addButt;
+    public static MyAppDataBase myAppDataBase;
 
 
     //Retrofit instance
@@ -58,6 +64,9 @@ public class ForecastActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forecast);
+
+        //db instance
+        myAppDataBase = Room.databaseBuilder(getApplicationContext(), MyAppDataBase.class, "citydb").build();
 
         //Init the ImageView and it's weather description
         currentWeatherView = findViewById(R.id.state);
@@ -73,6 +82,19 @@ public class ForecastActivity extends AppCompatActivity {
         //Build mForecastList with weather Data
         getForecast();
 
+        addButt = findViewById(R.id.fab);
+        addButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double city_id = getIntent().getDoubleExtra("id", 0);
+                String city_name = getIntent().getStringExtra("City");
+                CityFav cityFav = new CityFav();
+                cityFav.setIdTown(city_id);
+                cityFav.setName(city_name);
+
+                myAppDataBase.dataAccess().addTown(cityFav);
+            }
+        });
         //Build Adapter to convert datas to view List
         mAdapter = new ListForecastAdapter(getApplicationContext(), mForecastList);
         mListView.setAdapter(mAdapter);
@@ -94,6 +116,11 @@ public class ForecastActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     /**
@@ -216,7 +243,7 @@ public class ForecastActivity extends AppCompatActivity {
     }
 
     //Set image according to most recent forecast Weather
-    public  void manageImageFromWeather(String mainWeather) {
+    public void manageImageFromWeather(String mainWeather) {
         Intent myIntent = getIntent();
         if (mainWeather.equals("Clouds")) {
             currentWeatherView.setImageResource(R.drawable.couvert);
