@@ -44,13 +44,12 @@ import retrofit2.Response;
 public class ForecastActivity extends AppCompatActivity {
     //Visual Elements
     private ImageView currentWeatherView;
-    private TextView currentWeatherDescr;
+    private TextView currentCityDescr;
     private List<ListCommon> mForecastList;
     private ListView mListView;
     private ListForecastAdapter mAdapter;
     private BottomNavigationView mNavigationView;
 
-    private TextView mTextMessage;
 
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
@@ -62,7 +61,7 @@ public class ForecastActivity extends AppCompatActivity {
 
         //Init the ImageView and it's weather description
         currentWeatherView = findViewById(R.id.state);
-        currentWeatherDescr = findViewById(R.id.description);
+        currentCityDescr = findViewById(R.id.description);
         //Init the listView
         mListView = findViewById(R.id.activity_forecasts);
 
@@ -221,15 +220,15 @@ public class ForecastActivity extends AppCompatActivity {
         Intent myIntent = getIntent();
         if (mainWeather.equals("Clouds")) {
             currentWeatherView.setImageResource(R.drawable.couvert);
-            currentWeatherDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Couvert");
+            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Couvert");
         }
         if (mainWeather.equals("Rain")) {
             currentWeatherView.setImageResource(R.drawable.rain);
-            currentWeatherDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Pluie");
+            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Pluie");
         }
         if (mainWeather.equals("Clear")) {
             currentWeatherView.setImageResource(R.drawable.sun);
-            currentWeatherDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Dégagé");
+            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Dégagé");
         }
         //TODO
        /* if (mainWeather.equals("Snow"))

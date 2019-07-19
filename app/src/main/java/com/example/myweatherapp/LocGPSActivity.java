@@ -2,10 +2,13 @@ package com.example.myweatherapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +44,9 @@ public class LocGPSActivity extends AppCompatActivity {
     private Coord myCoord;
     private List<ListCommon> mForecastList;
 
+    private ImageView currentWeatherView;
+    private TextView currentCityDescr;
+
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
 
@@ -48,6 +54,11 @@ public class LocGPSActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gps);
+
+
+        //Init the ImageView and it's weather description
+        currentWeatherView = findViewById(R.id.weather_image);
+        //currentCityDescr = findViewById(R.id.location);
 
         //Set GPS
         LocationGPS locationGPS = new LocationGPS(this);
@@ -88,7 +99,7 @@ public class LocGPSActivity extends AppCompatActivity {
                     Log.d("FAILED", "Response from API call return NULL");
                     Toast.makeText(getApplicationContext(), "An error occured while getting weather data...", Toast.LENGTH_SHORT).show();
                 } else {
-                    int done = 1;
+                    int done = 0;
                     for (ListCommon lw : tempList) {
 
                         ListCommon copy = createOwnList(lw, done);
@@ -119,8 +130,8 @@ public class LocGPSActivity extends AppCompatActivity {
         Double humidity = lw.getMain().getHumidity();
 
         //Set image from mainWeather only for the most recent forecast
-        /*if (done == 0)
-            manageImageFromWeather(mainWeather);*/
+        if (done == 0)
+            manageImageFromWeather(mainWeather);
 
         //Insert these data in a new list
         ListCommon l = new ListCommon();
@@ -140,6 +151,33 @@ public class LocGPSActivity extends AppCompatActivity {
         l.setWeathers(ll);
         l.setDtTxt(lw.getDtTxt());
         return l;
+    }
+
+    //Set image according to most recent forecast Weather
+    public  void manageImageFromWeather(String mainWeather) {
+        Intent myIntent = getIntent();
+
+        if (mainWeather.equals("Clouds")) {
+            currentWeatherView.setImageResource(R.drawable.couvert);
+            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Couvert");
+        }
+        if (mainWeather.equals("Rain")) {
+            currentWeatherView.setImageResource(R.drawable.rain);
+            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Pluie");
+        }
+        if (mainWeather.equals("Clear")) {
+            currentWeatherView.setImageResource(R.drawable.sun);
+            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Dégagé");
+        }
+        //TODO
+       /* if (mainWeather.equals("Snow"))
+        {
+            currentWeatherView.setImageResource(R.drawable.couvert);
+        }
+        if (mainWeather.equals("Mist"))
+        {
+            currentWeatherView.setImageResource(R.drawable.couvert);
+        }*/
     }
 
 }
