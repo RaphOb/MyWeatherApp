@@ -1,31 +1,48 @@
 package com.example.myweatherapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myweatherapp.model.common.CityList;
 import com.example.myweatherapp.model.common.Coord;
+import com.example.myweatherapp.model.common.ListCommon;
+import com.example.myweatherapp.model.common.Main;
+import com.example.myweatherapp.model.common.Weather;
+import com.example.myweatherapp.model.common.Wind;
+import com.example.myweatherapp.model.searchData.SearchWeatherData;
+import com.example.myweatherapp.others.Constants;
+import com.example.myweatherapp.others.ListForecastAdapter;
 import com.example.myweatherapp.service.LocationGPS;
+import com.example.myweatherapp.service.RetrofitConfig;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LocGPSActivity extends AppCompatActivity {
 
 
     private Coord myCoord;
-    private double bestDistance;
+    private List<ListCommon> mForecastList;
 
-    public static List<CityList> mCityLists;
+    //Retrofit instance
+    RetrofitConfig retrofitConfig = new RetrofitConfig();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,78 +59,87 @@ public class LocGPSActivity extends AppCompatActivity {
         Log.d("LOC", String.valueOf(myCoord.getLat()));
         Log.d("LOC", String.valueOf(myCoord.getLon()));
 
-        Coord c = findMostNearByCity();
+        //Init the list for datas
+        mForecastList = new ArrayList<>();
+        getCityForecastFromCoord();
     }
 
-    private Coord findMostNearByCity()
-    {
-        Coord bestCoordFound = new Coord();
-        bestCoordFound.setLat(-10000);
-        bestCoordFound.setLon(-10000);
-        try
-        {
-            //Get list of all city
-            if (mCityLists == null)
-                CityChoiceActivity.City(getApplicationContext());
+    /**
+     * Api Call
+     */
+    public void getCityForecastFromCoord() {
+        retrofitConfig.getApiWeather().getForecast(
+                null,
+                null,
+                myCoord.getLat(),
+                myCoord.getLon(),
+                Constants.LANG,
+                Constants.UNITS,
+                Constants.APPID,
+                null
+        ).enqueue(new Callback<SearchWeatherData>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<SearchWeatherData> call, Response<SearchWeatherData> response) {
+                SearchWeatherData s = response.body();
+                List<ListCommon> tempList = response.body().getList();
 
-            mCityLists = CityChoiceActivity.mCityLists;
+                if (s == null) {
+                    Log.d("FAILED", "Response from API call return NULL");
+                    Toast.makeText(getApplicationContext(), "An error occured while getting weather data...", Toast.LENGTH_SHORT).show();
+                } else {
+                    int done = 1;
+                    for (ListCommon lw : tempList) {
 
-            //Use this variable to stock best distance found between 2 Coord
-            this.bestDistance = 1000000;
-            //For each city
-            for(CityList c: mCityLists)
-            {
-                Log.d("INFO", "nom : " + c.getName());
+                        ListCommon copy = createOwnList(lw, done);
+                        done = 1;
+                        mForecastList.add(copy);
+                        Log.d("INFO", "Date de prévision: " + copy.getDtTxt());
 
-                //Ne marche pas parce que le forecast ne fournit pas les coordonnées
-                //Il faut requeter chaque ville une par une pour récupérer les coordonnées
-                //avec l'endpoint CurrentWeatherData et comparer chaque coordonnées récupérés
-
-                //Search mostNearByLocation comparing Coord of user
-                //bestCoordFound = getMostNearByCoord(c, bestCoordFound);
+                    }
+                }
             }
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        return bestCoordFound;
+
+            @Override
+            public void onFailure(Call<SearchWeatherData> call, Throwable t) {
+                Log.d(">>>>>>ERREUR !!!!!! ", "message : " + t + call);
+            }
+        });
     }
 
-    private Coord getMostNearByCoord(CityList c, Coord bestCoordFound)
-    {
-        //Toujours null avec le endpoint forecast :(
-        if (c.getCoord() == null)
-        {
-            Log.d("INFO", "Found a city without Coord");
-            return null;
-        }
-        //Get Coord of city to compare
-        Coord coord = c.getCoord();
-        //Get Lon and Lat of city to compare
-        double currentLat = coord.getLat();
-        double currentLon = coord.getLon();
-        //Get Lon and Lat where user is
-        double myLat = myCoord.getLat();
-        double myLon = myCoord.getLon();
+    //Create a list used to show datas
+    public ListCommon createOwnList(ListCommon lw, int done) {
+        //Get data from getted List
+        double temperature = lw.getMain().getTemp();
+        String icon = lw.getWeathers().get(0).getIcon();
+        String description = lw.getWeathers().get(0).getDescription();
+        String mainWeather = lw.getWeathers().get(0).getMain();
+        Double windSpeed = (double) Math.round(lw.getWind().getSpeed() * 3.6);
+        Double windOrientation = lw.getWind().getDeg();
+        Double humidity = lw.getMain().getHumidity();
 
-        //Math Formula to calcul distance between 2 points
-        double dist_calculated = Math.sqrt( Math.pow(myLat - currentLat, 2) + Math.pow(myLon - currentLon, 2));
+        //Set image from mainWeather only for the most recent forecast
+        /*if (done == 0)
+            manageImageFromWeather(mainWeather);*/
 
-        if(dist_calculated < bestDistance)
-        {
-            //Stock distanceFound
-            bestDistance = dist_calculated;
-            //Stock Coord found
-            bestCoordFound.setLon(currentLat);
-            bestCoordFound.setLat(currentLon);
+        //Insert these data in a new list
+        ListCommon l = new ListCommon();
+        Main m = new Main();
+        m.setTemp(temperature);
+        l.setMain(m);
+        Weather w = new Weather();
+        w.setIcon(icon);
+        w.setDescription(description);
+        Wind v = new Wind();
+        v.setDeg(windOrientation);
+        v.setSpeed(windSpeed);
+        l.setWind(v);
 
-            Log.d("MEILLEUR DISTANCE", "DIST : " + String.valueOf(bestDistance));
-            Log.d("MEILLEUR LON", "LON : " + String.valueOf(bestCoordFound.getLon()));
-            Log.d("MEILLEUR LAT", "LAT : " + String.valueOf(bestCoordFound.getLat()));
-        }
-        return bestCoordFound;
+        List<Weather> ll = new ArrayList<>();
+        ll.add(w);
+        l.setWeathers(ll);
+        l.setDtTxt(lw.getDtTxt());
+        return l;
     }
-
 
 }

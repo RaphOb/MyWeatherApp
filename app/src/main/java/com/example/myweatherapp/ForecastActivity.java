@@ -183,13 +183,13 @@ public class ForecastActivity extends AppCompatActivity {
     //Create a list used to show datas
     public ListCommon createOwnList(ListCommon lw, int done) {
         //Get data from getted List
-        double temperature = lw.getMain().getTemp();
+        double temperature_min = lw.getMain().getTemp_min();
+        double temperature_max = lw.getMain().getTemp_max();
         String icon = lw.getWeathers().get(0).getIcon();
         String description = lw.getWeathers().get(0).getDescription();
         String mainWeather = lw.getWeathers().get(0).getMain();
         Double windSpeed = (double) Math.round(lw.getWind().getSpeed() * 3.6);
         Double windOrientation = lw.getWind().getDeg();
-        Double humidity = lw.getMain().getHumidity();
 
         //Set image from mainWeather only for the most recent forecast
         if (done == 0)
@@ -198,7 +198,8 @@ public class ForecastActivity extends AppCompatActivity {
         //Insert these data in a new list
         ListCommon l = new ListCommon();
         Main m = new Main();
-        m.setTemp(temperature);
+        m.setTemp_min(temperature_min);
+        m.setTemp_max(temperature_max);
         l.setMain(m);
         Weather w = new Weather();
         w.setIcon(icon);

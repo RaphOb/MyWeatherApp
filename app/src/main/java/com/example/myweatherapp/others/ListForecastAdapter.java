@@ -78,12 +78,12 @@ public class ListForecastAdapter extends BaseAdapter {
         ListCommon day = forecast.get(position);
 
         //DEFINE VISUAL ELEMENTS
-        TextView temperature = view.findViewById(R.id.day_row_temperature);
+        TextView temperature_interval = view.findViewById(R.id.day_row_temperature);
         TextView current_day = view.findViewById(R.id.day_row_current_day);
         ImageView imageView =  view.findViewById(R.id.imageView);
 
         //SET VISUAL ELEMENTS
-        temperature.setText(String.valueOf((int)day.getMain().getTemp()) + "°C");
+        temperature_interval.setText(String.valueOf((int)day.getMain().getTemp_min()) + " - " + String.valueOf((int)day.getMain().getTemp_max() + "°C"));
         //Set backgroundColor and font style for the currentDay
         if (position == 0) {
             view.setBackgroundColor(Color.parseColor("#87CEFA"));
