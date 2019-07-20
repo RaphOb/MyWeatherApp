@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class CityList implements Comparable<CityList>{
 
-    private Integer id;
+    private Double id;
 
     private String name;
 
@@ -18,11 +18,11 @@ public class CityList implements Comparable<CityList>{
         return this.name.compareTo(cl.name);
     }
 
-    public Integer getId() {
+    public Double getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Double id) {
         this.id = id;
     }
 

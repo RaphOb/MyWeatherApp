@@ -51,7 +51,7 @@ public class CityChoiceActivity extends AppCompatActivity {
     RetrofitConfig retrofitConfig = new RetrofitConfig();
 
     //Converted Data
-    private int mId;
+    private Double mId;
     private String mCity;
     private String mCountry;
     private CityList mCityObj;

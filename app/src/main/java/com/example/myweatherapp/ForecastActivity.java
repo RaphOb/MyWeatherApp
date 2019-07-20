@@ -66,7 +66,7 @@ public class ForecastActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forecast);
 
         //db instance
-        myAppDataBase = Room.databaseBuilder(getApplicationContext(), MyAppDataBase.class, "citydb").build();
+        myAppDataBase = Room.databaseBuilder(getApplicationContext(), MyAppDataBase.class, "citydb").allowMainThreadQueries().build();
 
         //Init the ImageView and it's weather description
         currentWeatherView = findViewById(R.id.state);
@@ -86,13 +86,14 @@ public class ForecastActivity extends AppCompatActivity {
         addButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                double city_id = getIntent().getDoubleExtra("id", 0);
+                Double city_id = getIntent().getDoubleExtra("id", 0);
                 String city_name = getIntent().getStringExtra("City");
                 CityFav cityFav = new CityFav();
                 cityFav.setIdTown(city_id);
                 cityFav.setName(city_name);
 
                 myAppDataBase.dataAccess().addTown(cityFav);
+                Toast.makeText(getApplicationContext(), "Success Full add to list", Toast.LENGTH_SHORT).show();
             }
         });
         //Build Adapter to convert datas to view List

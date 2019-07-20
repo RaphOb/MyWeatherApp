@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class CityFav {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name="city_name")
