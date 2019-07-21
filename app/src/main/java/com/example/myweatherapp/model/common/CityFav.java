@@ -14,7 +14,7 @@ public class CityFav {
     private String name;
 
     @ColumnInfo(name = "city_id")
-    private Double idTown;
+    private Integer idTown;
 
     public int getId() {
         return id;
@@ -32,11 +32,11 @@ public class CityFav {
         this.name = name;
     }
 
-    public Double getIdTown() {
+    public Integer getIdTown() {
         return idTown;
     }
 
-    public void setIdTown(Double idTown) {
+    public void setIdTown(Integer idTown) {
         this.idTown = idTown;
     }
 }

@@ -86,7 +86,7 @@ public class ForecastActivity extends AppCompatActivity {
         addButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Double city_id = getIntent().getDoubleExtra("id", 0);
+                Integer city_id = getIntent().getIntExtra("id", 0);
                 String city_name = getIntent().getStringExtra("City");
                 CityFav cityFav = new CityFav();
                 cityFav.setIdTown(city_id);
