@@ -22,7 +22,6 @@ import com.example.myweatherapp.model.common.CityList;
 import com.example.myweatherapp.model.currentWeather.CurrentWeatherData;
 import com.example.myweatherapp.others.CityAdaptateur;
 import com.example.myweatherapp.others.Constants;
-import com.example.myweatherapp.service.LocationGPS;
 import com.example.myweatherapp.service.RetrofitConfig;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;

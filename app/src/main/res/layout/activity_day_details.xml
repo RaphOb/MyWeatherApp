@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#dcf9ff">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/top_left"
-        android:layout_width="156dp"
-        android:layout_height="303dp">
+        android:layout_width="172dp"
+        android:layout_height="256dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/top_right"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/top_right">
 
         <ImageView
             android:id="@+id/state"
@@ -23,18 +28,22 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
-            android:textStyle="bold"
             android:text="VILLE"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
     </FrameLayout>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/top_right"
-        android:layout_width="201dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_toEndOf="@+id/top_left">
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/top_left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/top_left"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
@@ -95,29 +104,27 @@
 
     <ListView
         android:id="@+id/day_3hours_forecast"
-        android:layout_width="match_parent"
-        android:layout_height="261dp"
+        android:layout_width="363dp"
+        android:layout_height="218dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="301dp"
-        android:layout_marginBottom="78dp">
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_left">
 
     </ListView>
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="569dp"
-        android:layout_alignBottom="@+id/day_3hours_forecast"
-        android:layout_marginBottom="-7dp"
-        android:layout_weight="1" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:layout_alignBottom="@+id/view_pager"
-        android:layout_marginBottom="-70dp"
+        android:layout_height="wrap_content"
         android:background="#9CD4E5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="#dcf9ff"
     android:orientation="vertical"
     tools:context=".ForecastActivity">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="233dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -19,47 +26,49 @@
 
 
             app:layout_anchorGravity="bottom|end"
-            app:srcCompat="@drawable/ic_add_name"/>
+            app:srcCompat="@drawable/ic_add_name" />
 
         <ImageView
             android:id="@+id/state"
             android:layout_width="match_parent"
-            android:layout_height="233dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:src="@drawable/rain" />
 
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="70dp"
-            android:padding="10dp"
+            android:layout_gravity="center_horizontal"
             android:text="Actuellement : Forte pluie"
             android:textColor="@android:color/white"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="@+id/state" />
 
     </FrameLayout>
 
     <ListView
         android:id="@+id/activity_forecasts"
         android:layout_width="wrap_content"
-        android:layout_height="197dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="#dcf9ff"></ListView>
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="#dcf9ff"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"></ListView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#9CD4E5"
-        app:menu="@menu/bottom_nav_menu"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
