@@ -30,6 +30,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,9 +56,10 @@ public class CityChoiceActivity extends AppCompatActivity {
     private String mCountry;
     private CityList mCityObj;
     public static List<CityList> mCityLists;
+    public List<CityList> mFilteredCityLists;
     public String mQuery;
 
-    //LOC GPS
+    public final int CONST_MIN_SEARCH = 4;
 
 
     /*----------Activity Usage--------*/
@@ -83,16 +85,20 @@ public class CityChoiceActivity extends AppCompatActivity {
         //Deserialize the list of city file
         try {
             if (mCityLists == null)
+            {
                 City(getApplicationContext());
+                mFilteredCityLists = new ArrayList<CityList>();
+            }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Start autoCompletion at 4 char
-        mLocatedCity.setThreshold(4);
+        //Start autoCompletion at START_RESEARCH char
+        mLocatedCity.setThreshold(CONST_MIN_SEARCH);
+        //Sort by alphabetical order
         Collections.sort(mCityLists);
-        //Load Adapter to set Autocompletion View
-        final CityAdaptateur adapter = new CityAdaptateur(this, R.layout.activity_city_choice, android.R.layout.simple_list_item_1, mCityLists);
-        mLocatedCity.setAdapter(adapter);
+
         //Set listener for choice of City and get Country
         mLocatedCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -117,6 +123,8 @@ public class CityChoiceActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 /* Set confirm text empty */
                 mConfirm.setText("");
+                /* Filter list according to input */
+                filterCityList();
             }
 
             @Override
@@ -160,6 +168,38 @@ public class CityChoiceActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    /*
+        Filter the mFilteredCityList to get only suggestions
+        near by the user input
+     */
+    public void filterCityList()
+    {
+        //Remove blank from input TODO -> works but list doesn't print with blanks
+        String input = mLocatedCity.getText().toString().replaceAll(" ","");
+        Log.d("INFO ", "TEST" + input);
+        if (input.length() >= CONST_MIN_SEARCH) {
+            for (CityList c : mCityLists) {
+                //If an element start by the input (not case sensitive)
+                if (c.getName().startsWith(input)
+                    || c.getName().toLowerCase().startsWith(input)
+                    || c.getName().toUpperCase().startsWith(input)) {
+                    CityList obj = mCityLists.get(mCityLists.indexOf(c));
+                    mFilteredCityLists.add(obj);
+                }
+            }
+        }
+        int cpt = 0;
+        for(CityList c : mFilteredCityLists)
+        {
+            Log.d("NOM ", " " + mFilteredCityLists.get(cpt).getName());
+            cpt += 1;
+        }
+        //Load Adapter to set Autocompletion View
+        //now that list is filtered
+        final CityAdaptateur adapter = new CityAdaptateur(this, R.layout.activity_city_choice, android.R.layout.simple_list_item_1, mFilteredCityLists);
+        mLocatedCity.setAdapter(adapter);
     }
 
 
