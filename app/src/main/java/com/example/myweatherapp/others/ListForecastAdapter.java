@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 import com.example.myweatherapp.R;
 import com.example.myweatherapp.model.common.ListCommon;
+import com.example.myweatherapp.service.ToolService;
 
 import java.util.List;
 
@@ -81,6 +82,7 @@ public class ListForecastAdapter extends BaseAdapter {
         TextView temperature_interval = view.findViewById(R.id.day_row_temperature);
         TextView current_day = view.findViewById(R.id.day_row_current_day);
         ImageView imageView =  view.findViewById(R.id.imageView);
+        ImageView windOrientation = view.findViewById(R.id.day_row_details_wind);
 
         //SET VISUAL ELEMENTS
         temperature_interval.setText(String.valueOf((int)day.getMain().getTemp_min()) + " - " + String.valueOf((int)day.getMain().getTemp_max() + "°C"));
@@ -96,7 +98,10 @@ public class ListForecastAdapter extends BaseAdapter {
         //Downloads icon
         String url = Constants.URL_ICON + day.getWeathers().get(0).getIcon();
         new DownloadImageTask(imageView).execute(url);
-
+      Log.d("LOOOOOOG", String.valueOf(ToolService.getImageOrientation(day.getWind().getDeg())));
+      if(ToolService.getImageOrientation(day.getWind().getDeg()) != null) {
+          windOrientation.setImageResource(ToolService.getImageOrientation(day.getWind().getDeg()));
+      }
         //Set height for a row
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 110));
         view.setLayoutParams(params);
