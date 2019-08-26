@@ -38,7 +38,7 @@ public class DayDetailsActivity extends AppCompatActivity {
     private TextView mTemp;
     private TextView mTempInterval;
     private TextView mWindSpeed;
-    private TextView mWindOrientation;
+    private ImageView mWindOrientation;
     private TextView mPressure;
     private TextView mRain;
     private TextView mDescription;
@@ -103,11 +103,11 @@ public class DayDetailsActivity extends AppCompatActivity {
                     mDescription.setText(s.getList().get(position).getWeathers().get(0).getDescription());
                     mTemp.setText("Température  : "+ String.valueOf(s.getList().get(position).getMain().getTemp()) + "°C");
                     mTempInterval.setText("Min-Max  : "+ String.valueOf((int)s.getList().get(position).getMain().getTemp_min()) + " - " + String.valueOf((int)s.getList().get(0).getMain().getTemp_max()) + "°C");
-                    mWindOrientation.setText(ToolService.getImageOrientation(s.getList().get(position).getWind().getDeg()));
+//                    mWindOrientation.setText(ToolService.getImageOrientation(s.getList().get(position).getWind().getDeg()));
                     mWindSpeed.setText( "Vitesse vent  : "+ String.valueOf((int)s.getList().get(position).getWind().getSpeed()* 3.6) + "km/h");
                     mPressure.setText( "Pression  : "+ String.valueOf((int)s.getList().get(position).getMain().getPressure()) + " hPa");
                     new DownloadImageTask(iconView).execute(Constants.URL_ICON2 + s.getList().get(position).getWeathers().get(0).getIcon() + "@2x.png");
-
+                    mWindOrientation.setImageResource(ToolService.getImageOrientation(s.getList().get(position).getWind().getDeg()));
                     for (ListCommon lw : s.getList()) {
                         ListCommon copy = createOwnList(lw);
 
