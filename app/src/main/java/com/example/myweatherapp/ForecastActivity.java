@@ -3,27 +3,6 @@ package com.example.myweatherapp;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.myweatherapp.model.common.CityFav;
-import com.example.myweatherapp.model.common.ListCommon;
-import com.example.myweatherapp.model.common.Wind;
-import com.example.myweatherapp.model.dao.MyAppDataBase;
-import com.example.myweatherapp.others.ListForecastAdapter;
-import com.example.myweatherapp.model.common.Main;
-import com.example.myweatherapp.model.common.Weather;
-import com.example.myweatherapp.model.searchData.SearchWeatherData;
-import com.example.myweatherapp.others.Constants;
-import com.example.myweatherapp.service.RetrofitConfig;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.common.collect.Range;
-import com.google.common.collect.RangeMap;
-import com.google.common.collect.TreeRangeMap;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +11,24 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.example.myweatherapp.model.common.CityFav;
+import com.example.myweatherapp.model.common.ListCommon;
+import com.example.myweatherapp.model.common.ListFavViewModel;
+import com.example.myweatherapp.model.common.Main;
+import com.example.myweatherapp.model.common.Weather;
+import com.example.myweatherapp.model.common.Wind;
+import com.example.myweatherapp.model.searchData.SearchWeatherData;
+import com.example.myweatherapp.others.Constants;
+import com.example.myweatherapp.others.ListForecastAdapter;
+import com.example.myweatherapp.service.RetrofitConfig;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +51,8 @@ public class ForecastActivity extends AppCompatActivity {
     private ListForecastAdapter mAdapter;
     private BottomNavigationView mNavigationView;
     private FloatingActionButton addButt;
-    public static MyAppDataBase myAppDataBase;
-
+//    public static MyAppDataBase myAppDataBase;
+     private ListFavViewModel listFavViewModel;
 
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
@@ -66,7 +63,8 @@ public class ForecastActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forecast);
 
         //db instance
-        myAppDataBase = Room.databaseBuilder(getApplicationContext(), MyAppDataBase.class, "citydb").allowMainThreadQueries().build();
+//        myAppDataBase = Room.databaseBuilder(getApplicationContext(), MyAppDataBase.class, "citydb").allowMainThreadQueries().build();
+         listFavViewModel = ViewModelProviders.of(this).get(ListFavViewModel.class);
 
         //Init the ImageView and it's weather description
         currentWeatherView = findViewById(R.id.state);
@@ -92,7 +90,9 @@ public class ForecastActivity extends AppCompatActivity {
                 cityFav.setIdTown(city_id);
                 cityFav.setName(city_name);
 
-                myAppDataBase.dataAccess().addTown(cityFav);
+
+//                myAppDataBase.dataAccess().addTown(cityFav);
+                listFavViewModel.insert(cityFav);
                 Toast.makeText(getApplicationContext(), "Success Full add to list", Toast.LENGTH_SHORT).show();
             }
         });
@@ -285,8 +285,8 @@ public class ForecastActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.navigation_fav:
-                    /*intent = new Intent(ForecastActivity.this, FavouriteActivity.class);
-                    startActivity(intent);*/
+                    intent = new Intent(ForecastActivity.this, FavouriteActivity.class);
+                    startActivity(intent);
                     break;
             }
             return false;

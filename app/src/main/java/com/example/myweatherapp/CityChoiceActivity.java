@@ -261,8 +261,8 @@ public class CityChoiceActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.navigation_fav:
-                    /*intent = new Intent(CityChoiceActivity.this, FavouriteActivity.class);
-                    startActivity(intent);*/
+                    intent = new Intent(CityChoiceActivity.this, FavouriteActivity.class);
+                    startActivity(intent);
                     break;
             }
             return true;
