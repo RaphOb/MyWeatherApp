@@ -31,6 +31,8 @@ public class ListFavViewModel extends AndroidViewModel {
         new InsertAsyncTask(dataAccess).execute(cityFav);
     }
 
+    public void delete(CityFav cityFav) {new DeleteAsyncTask(dataAccess).execute(cityFav);}
+
     public  LiveData<List<CityFav>> getAllFavs() {
         return mCityFavs;
     }
@@ -55,9 +57,20 @@ public class ListFavViewModel extends AndroidViewModel {
         }
 
         @Override
-
         protected Void doInBackground(CityFav... cityFavs) {
             mAsyncTaskDao.addTown(cityFavs[0]);
+            return null;
+        }
+    }
+
+    private class DeleteAsyncTask extends OperationsAsyncTask{
+
+        public DeleteAsyncTask(DataAccess dao) {
+            super(dao);
+        }
+        @Override
+        protected Void doInBackground(CityFav... cityFavs) {
+            mAsyncTaskDao.delete(cityFavs[0]);
             return null;
         }
     }

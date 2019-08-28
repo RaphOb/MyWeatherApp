@@ -32,7 +32,8 @@
         </activity>
         <activity
             android:name=".FavouriteActivity"
-            android:label="Favorite activity">
+            android:label="Favorite activity"
+            android:launchMode="singleInstance">
         </activity>
 
         <activity

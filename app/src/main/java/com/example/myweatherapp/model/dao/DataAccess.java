@@ -14,12 +14,12 @@ import java.util.List;
 public interface DataAccess {
 
     @Insert
-    public void addTown(CityFav cityFav);
+     void addTown(CityFav cityFav);
 
     @Query("select * from citifav")
-    public LiveData<List<CityFav>> getCity();
+     LiveData<List<CityFav>> getCity();
 
     @Delete
-    public void delCity(CityFav cityFav);
+     void delete(CityFav cityFav);
 
 }

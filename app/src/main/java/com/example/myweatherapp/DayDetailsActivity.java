@@ -77,6 +77,7 @@ public class DayDetailsActivity extends AppCompatActivity {
 
         mNavigationView = findViewById(R.id.bottom_navigation_view);
         mNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        Log.d("ID COUNTRY", String.valueOf(getIntent().getIntExtra("id", 0) ));
     }
 
     public void getDayDetails() {
@@ -87,7 +88,7 @@ public class DayDetailsActivity extends AppCompatActivity {
                 Constants.LANG,
                 Constants.UNITS,
                 Constants.APPID,
-                5
+                6
         ).enqueue(new Callback<SearchWeatherData>() {
             @Override
             public void onResponse(Call<SearchWeatherData> call, Response<SearchWeatherData> response) {
@@ -169,8 +170,8 @@ public class DayDetailsActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.navigation_fav:
-                    /*intent = new Intent(DayDetailsActivity.this, FavouriteActivity.class);
-                    startActivity(intent);*/
+                    intent = new Intent(DayDetailsActivity.this, FavouriteActivity.class);
+                    startActivity(intent);
                     break;
             }
             return false;
