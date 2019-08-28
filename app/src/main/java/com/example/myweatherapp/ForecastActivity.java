@@ -86,9 +86,11 @@ public class ForecastActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Integer city_id = getIntent().getIntExtra("id", 0);
                 String city_name = getIntent().getStringExtra("City");
+                String country_name = getIntent().getStringExtra("Country");
                 CityFav cityFav = new CityFav();
                 cityFav.setIdTown(city_id);
                 cityFav.setName(city_name);
+                cityFav.setCountry(country_name);
 
 
 //                myAppDataBase.dataAccess().addTown(cityFav);

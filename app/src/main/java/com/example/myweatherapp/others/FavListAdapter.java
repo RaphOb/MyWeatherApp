@@ -109,7 +109,7 @@ public class FavListAdapter extends RecyclerView.Adapter<FavListAdapter.FavViewH
                     /* Add City and Country choosed to forecast */
 //                    intent.putExtra("Query", mQuery);
                     intent.putExtra("City", mCityFav.get(mPosition).getName());
-//                    intent.putExtra("Country", mCountry);
+                    intent.putExtra("Country", mCityFav.get(mPosition).getCountry());
                     intent.putExtra("id", mCityFav.get(mPosition).getIdTown());
                     ((Activity)mContext).startActivityForResult(intent,1);
                 }
