@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,8 +52,7 @@ public class ForecastActivity extends AppCompatActivity {
     private ListForecastAdapter mAdapter;
     private BottomNavigationView mNavigationView;
     private FloatingActionButton addButt;
-//    public static MyAppDataBase myAppDataBase;
-     private ListFavViewModel listFavViewModel;
+    private ListFavViewModel listFavViewModel;
 
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
@@ -63,8 +63,7 @@ public class ForecastActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forecast);
 
         //db instance
-//        myAppDataBase = Room.databaseBuilder(getApplicationContext(), MyAppDataBase.class, "citydb").allowMainThreadQueries().build();
-         listFavViewModel = ViewModelProviders.of(this).get(ListFavViewModel.class);
+        listFavViewModel = ViewModelProviders.of(this).get(ListFavViewModel.class);
 
         //Init the ImageView and it's weather description
         currentWeatherView = findViewById(R.id.state);
@@ -174,31 +173,7 @@ public class ForecastActivity extends AppCompatActivity {
 
                         mAdapter.notifyDataSetChanged();
                     }
-
-//                    int day = 0;
-//                    Iterator<ListCommon> iterator = mForecastList.iterator();
-//                    while (iterator.hasNext()) {
-//                        ListCommon x = iterator.next();
-//                        Log.d("INFO", x.getSys().getCountry());
-//                        Log.d("INFO", String.valueOf(x.getCoord().getLat()));
-//                        Log.d("INFO", String.valueOf(x.getCoord().getLon()));
-//                        Log.d("INFO", x.getName());
-
-//                        mTemp[day].setText(String.valueOf(x.getMain().getTemp()));
-//                        mTempMax[day].setText(String.valueOf(x.getMain().getTemp_max()));
-//                        mTempMin[day].setText(String.valueOf(x.getMain().getTemp_min()));
-//                        mWindSpeed[day].setText(String.valueOf(x.getWind().getSpeed()));
-//                        mWindOrientation[day].setText(String.valueOf(x.getWind().getSpeed()));
-//                        mRain1[day].setText(String.valueOf(x.getRain().getRain1()));
-//                        mRain3[day].setText(String.valueOf(x.getRain().getRain3()));
-//                        mDescription[day].setText(x.getWeathers().get(0).getDescription());
-//                        mIcon[day].setText(x.getWeathers().get(0).getIcon());
-//                        Picasso.get().load(URL_ICON + x.getWeathers().get(0).getIcon() + "@2x.png").into(iconView[day]);
-
-
                     Log.d("SUCCESS", "Data from 5 next days");
-//                        ++day;
-//                    }
                 }
             }
 
@@ -214,6 +189,7 @@ public class ForecastActivity extends AppCompatActivity {
         //Get data from getted List
         double temperature_min = lw.getMain().getTemp_min();
         double temperature_max = lw.getMain().getTemp_max();
+
         String icon = lw.getWeathers().get(0).getIcon();
         String description = lw.getWeathers().get(0).getDescription();
         String mainWeather = lw.getWeathers().get(0).getMain();
@@ -241,7 +217,7 @@ public class ForecastActivity extends AppCompatActivity {
         List<Weather> ll = new ArrayList<>();
         ll.add(w);
         l.setWeathers(ll);
-        l.setDtTxt(lw.getDtTxt());
+        l.setDtTxt(lw.getDtTxt().substring(0, 10));
         return l;
     }
 

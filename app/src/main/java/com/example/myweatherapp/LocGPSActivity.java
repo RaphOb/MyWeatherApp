@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ public class LocGPSActivity extends AppCompatActivity {
 
     private Coord myCoord;
     private List<ListCommon> mForecastList;
+    private ListView mListView;
+    private ListForecastAdapter mAdapter;
 
     private ImageView currentWeatherView;
     private TextView currentCityDescr;
@@ -157,18 +160,18 @@ public class LocGPSActivity extends AppCompatActivity {
     public  void manageImageFromWeather(String mainWeather) {
         Intent myIntent = getIntent();
 
-        if (mainWeather.equals("Clouds")) {
-            currentWeatherView.setImageResource(R.drawable.couvert);
-            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Couvert");
-        }
-        if (mainWeather.equals("Rain")) {
-            currentWeatherView.setImageResource(R.drawable.rain);
-            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Pluie");
-        }
-        if (mainWeather.equals("Clear")) {
-            currentWeatherView.setImageResource(R.drawable.sun);
-            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Dégagé");
-        }
+//        if (mainWeather.equals("Clouds")) {
+//            currentWeatherView.setImageResource(R.drawable.couvert);
+//            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Couvert");
+//        }
+//        if (mainWeather.equals("Rain")) {
+//            currentWeatherView.setImageResource(R.drawable.rain);
+//            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Pluie");
+//        }
+//        if (mainWeather.equals("Clear")) {
+//            currentWeatherView.setImageResource(R.drawable.sun);
+//            currentCityDescr.setText(myIntent.getStringExtra("City") + " (" + myIntent.getStringExtra("Country") + ")\nActuellement: Dégagé");
+//        }
         //TODO
        /* if (mainWeather.equals("Snow"))
         {
