@@ -49,6 +49,8 @@ public class LocGPSActivity extends AppCompatActivity {
 
     private ImageView currentWeatherView;
     private TextView currentCityDescr;
+    private String mCity = "coucou";
+    private String mCountry = "kikou";
 
     //Retrofit instance
     RetrofitConfig retrofitConfig = new RetrofitConfig();
@@ -76,6 +78,7 @@ public class LocGPSActivity extends AppCompatActivity {
         //Init the list for datas
         mForecastList = new ArrayList<>();
         getCityForecastFromCoord();
+
     }
 
     /**
@@ -102,15 +105,16 @@ public class LocGPSActivity extends AppCompatActivity {
                     Log.d("FAILED", "Response from API call return NULL");
                     Toast.makeText(getApplicationContext(), "An error occured while getting weather data...", Toast.LENGTH_SHORT).show();
                 } else {
-                    int done = 0;
-                    for (ListCommon lw : tempList) {
+                    Log.d("TAGGGGGGG", s.getList().get(0).getDtTxt());
+                    mCity = s.getList().get(0).getName();
+                    mCountry = s.getList().get(0).getSys().getCountry();
+                    Intent intent  = new Intent(LocGPSActivity.this, ForecastActivity.class);
+                    intent.putExtra("lat", myCoord.getLat());
+                    intent.putExtra("lon", myCoord.getLon());
+                    intent.putExtra("City", "Paris");
 
-                        ListCommon copy = createOwnList(lw, done);
-                        done = 1;
-                        mForecastList.add(copy);
-                        Log.d("INFO", "Date de prévision: " + copy.getDtTxt());
-
-                    }
+                    intent.putExtra("Country", mCountry);
+                    startActivity(intent);
                 }
             }
 
@@ -119,41 +123,6 @@ public class LocGPSActivity extends AppCompatActivity {
                 Log.d(">>>>>>ERREUR !!!!!! ", "message : " + t + call);
             }
         });
-    }
-
-    //Create a list used to show datas
-    public ListCommon createOwnList(ListCommon lw, int done) {
-        //Get data from getted List
-        double temperature = lw.getMain().getTemp();
-        String icon = lw.getWeathers().get(0).getIcon();
-        String description = lw.getWeathers().get(0).getDescription();
-        String mainWeather = lw.getWeathers().get(0).getMain();
-        Double windSpeed = (double) Math.round(lw.getWind().getSpeed() * 3.6);
-        Double windOrientation = lw.getWind().getDeg();
-        Double humidity = lw.getMain().getHumidity();
-
-        //Set image from mainWeather only for the most recent forecast
-        if (done == 0)
-            manageImageFromWeather(mainWeather);
-
-        //Insert these data in a new list
-        ListCommon l = new ListCommon();
-        Main m = new Main();
-        m.setTemp(temperature);
-        l.setMain(m);
-        Weather w = new Weather();
-        w.setIcon(icon);
-        w.setDescription(description);
-        Wind v = new Wind();
-        v.setDeg(windOrientation);
-        v.setSpeed(windSpeed);
-        l.setWind(v);
-
-        List<Weather> ll = new ArrayList<>();
-        ll.add(w);
-        l.setWeathers(ll);
-        l.setDtTxt(lw.getDtTxt());
-        return l;
     }
 
     //Set image according to most recent forecast Weather
