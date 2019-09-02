@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_gps"
-        android:icon="@drawable/ic_gps"
-        android:title="@string/title_gps" />
-
-    <item
         android:id="@+id/navigation_search"
         android:icon="@drawable/ic_search"
         android:title="@string/title_search" />
+
+    <item
+        android:id="@+id/navigation_gps"
+        android:icon="@drawable/ic_gps"
+        android:title="@string/title_gps" />
 
     <item
         android:id="@+id/navigation_fav"

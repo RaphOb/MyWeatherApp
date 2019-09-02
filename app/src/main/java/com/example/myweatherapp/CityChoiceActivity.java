@@ -89,9 +89,8 @@ public class CityChoiceActivity extends AppCompatActivity {
                 City(getApplicationContext());
                 mFilteredCityLists = new ArrayList<CityList>();
             }
-
-
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         //Start autoCompletion at START_RESEARCH char
@@ -106,6 +105,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                 mCityObj = (CityList) adapterView.getItemAtPosition(i);
                 mCity = mCityObj.getName();
                 mCountry = mCityObj.getCountry();
+                Log.d("INFO", mCountry);
                 mId = mCityObj.getId();
                 mQuery = mCity + "," + mCountry;
             }
@@ -178,7 +178,6 @@ public class CityChoiceActivity extends AppCompatActivity {
     {
         //Remove blank from input TODO -> works but list doesn't print with blanks
         String input = mLocatedCity.getText().toString().replaceAll(" ","");
-        Log.d("INFO ", "TEST" + input);
         if (input.length() >= CONST_MIN_SEARCH) {
             for (CityList c : mCityLists) {
                 //If an element start by the input (not case sensitive)
@@ -191,11 +190,6 @@ public class CityChoiceActivity extends AppCompatActivity {
             }
         }
         int cpt = 0;
-        for(CityList c : mFilteredCityLists)
-        {
-            Log.d("NOM ", " " + mFilteredCityLists.get(cpt).getName());
-            cpt += 1;
-        }
         //Load Adapter to set Autocompletion View
         //now that list is filtered
         final CityAdaptateur adapter = new CityAdaptateur(this, R.layout.activity_city_choice, android.R.layout.simple_list_item_1, mFilteredCityLists);
@@ -215,7 +209,7 @@ public class CityChoiceActivity extends AppCompatActivity {
                     Log.d("FAILED", "Reponse from API call return NULL");
                     Toast.makeText(getApplicationContext(), "It seems the city you entered is not known from us...", Toast.LENGTH_SHORT).show();
                 } else {
-                    mCountry = api_result.getSys().getCountry();
+                    //mCountry = api_result.getSys().getCountry();
                     mSearchButton.setText("OK");
                 }
             }
@@ -252,7 +246,6 @@ public class CityChoiceActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_gps:
-                    Log.d("INFO", "End");
                     Intent intent = new Intent(CityChoiceActivity.this, LocGPSActivity.class);
                     startActivity(intent);
                     break;

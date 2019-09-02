@@ -98,7 +98,6 @@ public class ListForecastAdapter extends BaseAdapter {
         //Downloads icon
         String url = Constants.URL_ICON + day.getWeathers().get(0).getIcon();
         new DownloadImageTask(imageView).execute(url);
-      Log.d("LOOOOOOG", String.valueOf(ToolService.getImageOrientation(day.getWind().getDeg())));
       if(ToolService.getImageOrientation(day.getWind().getDeg()) != null) {
           windOrientation.setImageResource(ToolService.getImageOrientation(day.getWind().getDeg()));
       }
@@ -123,7 +122,6 @@ public class ListForecastAdapter extends BaseAdapter {
 
     public String convertIntToDay(int currentDay)
     {
-        Log.d("INFO", "CONVERSION DE " + currentDay);
         switch (currentDay) {
             case 1:
                 return "Lundi";
@@ -149,16 +147,12 @@ public class ListForecastAdapter extends BaseAdapter {
     {
         //Set days
         int numDay = (getCurrentDay() + position) % 7;
-        Log.d("INFO", "NUMERO DE JOUR " + getCurrentDay());
-        Log.d("INFO", "POSITION COURANTE" + position);
-        Log.d("INFO", "Calcul : " + getCurrentDay() + " " + position);
 
         //0 isn't a valid number for a day (start at 1)
         if (numDay == 0)
             numDay = 7;
             position++;
 
-        Log.d("INFO", "Jour calculé " + numDay);
         return convertIntToDay(numDay);
     }
 }

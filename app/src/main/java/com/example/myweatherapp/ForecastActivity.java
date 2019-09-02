@@ -91,7 +91,6 @@ public class ForecastActivity extends AppCompatActivity {
                 cityFav.setName(city_name);
                 cityFav.setCountry(country_name);
 
-
 //                myAppDataBase.dataAccess().addTown(cityFav);
                 listFavViewModel.insert(cityFav);
                 Toast.makeText(getApplicationContext(), "Success Full add to list", Toast.LENGTH_SHORT).show();

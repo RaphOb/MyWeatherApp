@@ -110,6 +110,7 @@ public class LocGPSActivity extends AppCompatActivity {
                         mForecastList.add(copy);
                         Log.d("INFO", "Date de prévision: " + copy.getDtTxt());
 
+                        Log.d("INFO", "Température: " + copy.getMain().getTemp());
                     }
                 }
             }
