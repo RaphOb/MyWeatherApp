@@ -142,8 +142,8 @@ public class ForecastActivity extends AppCompatActivity {
      */
     public void getForecast() {
         retrofitConfig.getApiWeather().getForecast(
-                getIntent().getStringExtra("City"),
-                null,
+               null,
+                getIntent().getIntExtra("id",0),
                 null,
                 null,
                 Constants.LANG,
