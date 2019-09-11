@@ -87,7 +87,7 @@ public class ListDaydetailsAdapter extends BaseAdapter {
         ImageView imageView =  view.findViewById(R.id.imageView);
 
         //SET VISUAL ELEMENTS
-        temperature.setText(String.valueOf((int)day_now.getMain().getTemp()) + "°C");
+        temperature.setText(String.valueOf((int)day_now.getMain().getTemp()) + "°C" + " | " + String.valueOf(((int)day_now.getMain().getTemp() * 9/5 + 32)) + "°F");
         hour.setText(String.valueOf(day_now.getDtTxt()));
         wind_speed.setText(String.valueOf((int)day_now.getWind().getSpeed()) + "km/h");
         humidity.setText(String.valueOf(day_now.getMain().getHumidity()) + "%");

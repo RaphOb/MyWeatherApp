@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     android:background="#dcf9ff">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
         android:id="@+id/top_left"
-        android:layout_width="172dp"
-        android:layout_height="256dp"
+        android:layout_width="166dp"
+        android:layout_height="188dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/top_right"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/state"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="188dp"
             android:layout_alignEnd="@+id/top_left" />
 
         <TextView
@@ -27,41 +27,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="25dp"
             android:text="VILLE"
             android:textSize="15sp"
             android:textStyle="bold" />
 
     </FrameLayout>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
         android:id="@+id/top_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="201dp"
+        android:layout_height="237dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_toEndOf="@+id/top_left"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toEndOf="@+id/top_left"
         app:layout_constraintTop_toTopOf="parent">
-
-
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginTop="40dp"
-            android:text="INFO1"
-            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/day_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="50dp"
             android:text="INFO2"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/text_wind_direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="90dp"
+            android:text="INFO3"
             android:textSize="15sp" />
 
         <ImageView
@@ -69,17 +69,27 @@
             android:layout_width="wrap_content"
             android:layout_height="160dp"
             android:layout_gravity="left"
-            android:layout_marginTop="80dp"
-            android:text="Wind direction"
+            android:layout_marginTop="37dp"
+            android:layout_marginLeft="60dp"
+            android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            android:adjustViewBounds="true" />
+            android:text="Wind direction" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp"
+            android:text="INFO1"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/day_wind_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="130dp"
             android:text="INFO4"
             android:textSize="15sp" />
 
@@ -88,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="170dp"
             android:text="INFO5"
             android:textSize="15sp" />
 
@@ -97,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_marginTop="240dp"
+            android:layout_marginTop="210dp"
             android:text="INFO6"
             android:textSize="15sp" />
 
@@ -105,8 +115,8 @@
 
     <ListView
         android:id="@+id/day_3hours_forecast"
-        android:layout_width="363dp"
-        android:layout_height="218dp"
+        android:layout_width="367dp"
+        android:layout_height="184dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -115,7 +125,8 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_left">
+        app:layout_constraintTop_toBottomOf="@+id/top_left"
+        app:layout_constraintVertical_bias="0.941">
 
     </ListView>
 
