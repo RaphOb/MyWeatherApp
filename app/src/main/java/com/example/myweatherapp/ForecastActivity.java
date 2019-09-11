@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.myweatherapp.model.common.CityFav;
@@ -28,15 +26,13 @@ import com.example.myweatherapp.model.searchData.SearchWeatherData;
 import com.example.myweatherapp.others.Constants;
 import com.example.myweatherapp.others.ListForecastAdapter;
 import com.example.myweatherapp.service.RetrofitConfig;
+import com.example.myweatherapp.service.ToolService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
+
 import java.util.stream.Collectors;
 
 import retrofit2.Call;
@@ -124,18 +120,8 @@ public class ForecastActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /**
-     * Uses a ConcurrentHashMap instance to find out if there is any existing key with same value-
-     * where key is obtained from a function reference.
-     *
-     * @param keyExtractor
-     * @param <T>
-     * @return
-     */
-    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
-        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
-        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
-    }
+
+
 
     /**
      * Api Call
@@ -157,7 +143,7 @@ public class ForecastActivity extends AppCompatActivity {
                 SearchWeatherData s = response.body();
                 List<ListCommon> tempList = response.body().getList()
                         .stream()
-                        .filter(distinctByKey(b -> b.getDate(b.getDtTxt())))
+                        .filter(ToolService.distinctByKey(b -> b.getDate(b.getDtTxt())))
                         .collect(Collectors.toList());
 
                 if (s == null) {
