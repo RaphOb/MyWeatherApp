@@ -115,8 +115,8 @@
 
     <ListView
         android:id="@+id/day_3hours_forecast"
-        android:layout_width="367dp"
-        android:layout_height="184dp"
+        android:layout_width="349dp"
+        android:layout_height="193dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
